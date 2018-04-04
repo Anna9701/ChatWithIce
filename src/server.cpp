@@ -1,22 +1,8 @@
 #include <Ice/Ice.h>
 #include "chat.h"
+#include "UserI.h"
 
 using namespace std;
-using namespace Chat;
-
-class UserI : public User {
-    public:
-        UserI(string n) : name(n){};
-        virtual string getName(const Ice::Current&);
-        virtual void SendMessage(const RoomPrx&, const UserPrx&, const string&, const ::Ice::Current& = ::Ice::Current()) {} //TODO
-        virtual void SendPrivateMessage(const UserPrx&, const string&, const ::Ice::Current& = ::Ice::Current()) {}
-    private:
-        string name;
-};
-
-string UserI::getName(const Ice::Current&) { 
-    return name;
-}
 
 int main(int argc, char* argv[]) {
     int status = 0;
