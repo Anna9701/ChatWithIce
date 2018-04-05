@@ -7,7 +7,7 @@ TARGETSERVER = Debug/server
 INCLUDES = -I ./src/ -I ./ice/ -I ./src/libs/
 LIBS = -pthread -lIce -lIceUtil
 SCRSCLIENT = src/client.cpp ice/chat.cpp
-SCRSSERVER = src/server.cpp ice/chat.cpp src/libs/UserI.cpp
+SCRSSERVER = src/server.cpp ice/chat.cpp src/libs/UserImpl.cpp src/libs/ServerImpl.cpp
 OBJS = $(SCRS:.c=.o)
 
 .PHONY: clean All

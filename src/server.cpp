@@ -1,6 +1,6 @@
 #include <Ice/Ice.h>
 #include "chat.h"
-#include "UserI.h"
+#include "UserImpl.h"
 
 using namespace std;
 
@@ -10,7 +10,7 @@ int main(int argc, char* argv[]) {
     try {
         ic = Ice::initialize(argc, argv);
         Ice::ObjectAdapterPtr adapter = ic->createObjectAdapterWithEndpoints("SimpleUserAdapter", "default -p 10000");
-        Ice::ObjectPtr object = new UserI("Sample");
+        Ice::ObjectPtr object = new UserImpl("Sample");
         adapter->add(object, ic->stringToIdentity("SimpleUser"));
         adapter->activate();
         ic->waitForShutdown();
