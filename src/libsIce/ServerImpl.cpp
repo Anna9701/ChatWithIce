@@ -2,7 +2,7 @@
 
 void ServerImpl::RegisterUser(const string& username, const string& password, const ::Ice::Current&) {
     UserPtr user = new UserImpl(username);
-    //usersList.push_back(user);
+ //   usersList.push_back(user); -> not here? in room? 
     cout << password << endl << user->getName() << endl;
 }
 /*******************************NOT IMPLEMENTED YET**********************************************************************/
