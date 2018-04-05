@@ -9,7 +9,7 @@
 
     class UserImpl : public User {
         public:
-            UserImpl(string n) : name(n){};
+            UserImpl(const string& n) : name(n){};
             virtual string getName(const Ice::Current&) override;
             virtual void SendMessage(const RoomPrx&, const UserPrx&, const string&, const ::Ice::Current& = ::Ice::Current()) {} //TODO
             virtual void SendPrivateMessage(const UserPrx&, const string&, const ::Ice::Current& = ::Ice::Current()) {}

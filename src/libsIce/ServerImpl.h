@@ -3,6 +3,7 @@
 
     #include <Ice/Ice.h>
     #include "chat.h"
+    #include "UserImpl.h"
 
     using namespace Chat;
     using namespace std;
@@ -18,6 +19,7 @@
             virtual void RegisterRoomFactory(const RoomFactoryPrx&, const ::Ice::Current& = ::Ice::Current()) override;
             virtual void UnregisterRoomFactory(const RoomFactoryPrx&, const ::Ice::Current& = ::Ice::Current()) override;
         private:
+            UserList usersList;
     };
 
 #endif

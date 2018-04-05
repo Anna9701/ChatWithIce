@@ -6,7 +6,7 @@ TARGETSERVER = Debug/server
 
 INCLUDES = -I ./src/ -I ./ice/ -I ./src/libsIce/
 LIBS = -pthread -lIce -lIceUtil
-SCRSCLIENT = src/client.cpp ice/chat.cpp
+SCRSCLIENT = src/Client.cpp ice/chat.cpp src/clientMain.cpp src/libsIce/UserImpl.cpp
 SCRSSERVER = src/server.cpp ice/chat.cpp src/libsIce/UserImpl.cpp src/libsIce/ServerImpl.cpp
 OBJS = $(SCRS:.c=.o)
 
