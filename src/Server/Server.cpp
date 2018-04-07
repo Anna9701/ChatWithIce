@@ -7,6 +7,7 @@ using namespace std;
 
 int main(int argc, char* argv[]) {
     int status = 0;
+
     Ice::CommunicatorPtr ic;
     try {
         ic = Ice::initialize(argc, argv);

@@ -3,10 +3,12 @@
 namespace RoomFactory {
     void Factory::registerRoomFactory() {
         RoomFactoryPtr object = new RoomFactoryImpl();
-        adapter = iceCommunicator->createObjectAdapterWithEndpoints("RoomFactory", "default -p 10001");
+        int port = getRandomPort();
+        adapter = iceCommunicator->createObjectAdapterWithEndpoints("RoomFactory", 
+                                                                    "default -p " + to_string(port));
         adapter->add(object, iceCommunicator->stringToIdentity("RoomFactory"));
         adapter->activate();
-        Ice::ObjectPrx base = iceCommunicator->stringToProxy("RoomFactory:default -p 10001");
+        Ice::ObjectPrx base = iceCommunicator->stringToProxy("RoomFactory:default -p " + to_string(port));
         roomFactory = RoomFactoryPrx::checkedCast(base);
         server->RegisterRoomFactory(roomFactory);
         iceCommunicator->waitForShutdown();
@@ -14,6 +16,14 @@ namespace RoomFactory {
 
     void Factory::unregisterRoomFactory() const {
         server->UnregisterRoomFactory(roomFactory);
+    }
+
+    int Factory::getRandomPort() const {
+        random_device rseed;
+        mt19937 randomGenerator(rseed());
+        uniform_int_distribution<> distribution(MIN_PORT_NUMBER, MAX_PORT_NUMBER);
+
+        return distribution(randomGenerator);
     }
 
     Factory::Factory() {

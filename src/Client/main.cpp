@@ -8,15 +8,14 @@ using namespace ClientApp;
 int main(int argc, char* argv[]) {
     int status = 0;
     Menu menu;
-    Client client(argc, argv);
-    string clientInput;
+    string username, password;
 
     cout << "Enter your username: " << endl;
-    cin >> clientInput;
-    client.setUsername(clientInput);
+    cin >> username;
     cout << "Enter your password: " << endl;
-    cin >> clientInput;
-    client.setPassword(clientInput);
+    cin >> password;
+
+    Client client(username, password);
 
     while (true) {
         menu.printMenu();
@@ -24,6 +23,9 @@ int main(int argc, char* argv[]) {
         switch (choice) {
             case 1:
                 client.createRoom();
+                break;
+            case 2:
+                client.printListAllRooms();
                 break;
             case 0:
                 return status;

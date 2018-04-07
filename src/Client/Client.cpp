@@ -1,26 +1,23 @@
 #include "Client.h"
 
 namespace ClientApp {
-    void Client::setUsername(const string& name) {
-        username = name;
-    }
-
     void Client::setPassword(const string& password) {
         this->password = password;
     }
 
     void Client::createUser() {
         UserPtr object = new UserImpl(username);
-        adapter = iceCommunicator->createObjectAdapterWithEndpoints("User" + username, "default -p 10000");
+        int port = getRandomPort();
+        adapter = iceCommunicator->createObjectAdapterWithEndpoints("User" + username, "default -p " + to_string(port));
         adapter->add(object, iceCommunicator->stringToIdentity("User" + username));
         adapter->activate();
-        Ice::ObjectPrx base = iceCommunicator->stringToProxy("User" + username + ":default -p 10000");
+        Ice::ObjectPrx base = iceCommunicator->stringToProxy("User" + username + ":default -p " + to_string(port));
         user = UserPrx::checkedCast(base);
     }
 
-    Client::Client(int argc, char* argv[]) {
+    Client::Client(const string& name, const string& passwd) : username(name), password(passwd) {
         try {
-            iceCommunicator = Ice::initialize(argc, argv);
+            iceCommunicator = Ice::initialize();
             Ice::ObjectPrx base = iceCommunicator->stringToProxy("Server:default -p 10000");
             server = ServerPrx::checkedCast(base);
             if (!server)
@@ -30,6 +27,7 @@ namespace ClientApp {
         } catch (const char* msg) {
             cerr << msg << endl;
         }
+        createUser();
     }
 
     Client::~Client() {
@@ -42,5 +40,17 @@ namespace ClientApp {
         cout << "Enter name for new room " << endl;
         cin >> roomName;
         server->CreateRoom(roomName);
+    }
+
+    void Client::printListAllRooms() const {
+
+    }
+
+    int Client::getRandomPort() const {
+        random_device rseed;
+        mt19937 randomGenerator(rseed());
+        uniform_int_distribution<> distribution(MIN_PORT_NUMBER, MAX_PORT_NUMBER);
+
+        return distribution(randomGenerator);
     }
 }
