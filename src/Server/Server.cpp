@@ -26,9 +26,9 @@ int main(int argc, char* argv[]) {
         cerr << msg << endl;
         status = 1;
     }
-    if (ic) {
+    if (iceCommunicator) {
         try {
-            ic->destroy();
+            iceCommunicator->destroy();
         } catch (const Ice::Exception& e) {
             cerr << e << endl;
             status = 1;

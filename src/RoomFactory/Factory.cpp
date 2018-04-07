@@ -5,10 +5,11 @@ namespace RoomFactory {
         RoomFactoryPtr object = new RoomFactoryImpl();
         int port = portsUtil.getRandomPort();
         adapter = iceCommunicator->createObjectAdapterWithEndpoints("RoomFactory", 
-                                                                    "default -p " + to_string(port));
+                                                        "default -p " + to_string(port));
         adapter->add(object, iceCommunicator->stringToIdentity("RoomFactory"));
         adapter->activate();
-        Ice::ObjectPrx base = iceCommunicator->stringToProxy("RoomFactory:default -p " + to_string(port));
+        Ice::ObjectPrx base = iceCommunicator->stringToProxy("RoomFactory:default -p " 
+                                                                    + to_string(port));
         roomFactory = RoomFactoryPrx::checkedCast(base);
         server->RegisterRoomFactory(roomFactory);
         iceCommunicator->waitForShutdown();
@@ -22,7 +23,8 @@ namespace RoomFactory {
         try {
             iceCommunicator = Ice::initialize();
             int serverPort = portsUtil.getServerPort();
-            Ice::ObjectPrx base = iceCommunicator->stringToProxy("Server:default -p " + to_string(serverPort));
+            Ice::ObjectPrx base = iceCommunicator->stringToProxy("Server:default -p " 
+                                                            + to_string(serverPort));
             server = ServerPrx::checkedCast(base);
             if (!server) {
                 throw "Invalid proxy";

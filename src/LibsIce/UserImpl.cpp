@@ -4,11 +4,16 @@ namespace LibsIce {
         return name;
     }
 
-    void UserImpl::SendMessage(const RoomPrx& room, const UserPrx& who, const string& message, const ::Ice::Current&) {
+    void UserImpl::SendMessage(const RoomPrx& room, 
+                            const UserPrx& who, 
+                            const string& message, 
+                            const ::Ice::Current&) {
         cout << room->getName() << " : " << who->getName() << " wrote: " << message << endl;
     }
 
-    void UserImpl::SendPrivateMessage(const UserPrx& who, const string& message, const ::Ice::Current&) {
+    void UserImpl::SendPrivateMessage(const UserPrx& who, 
+                                    const string& message, 
+                                    const ::Ice::Current&) {
         cout << who->getName() << " wrote: " << message << endl;
     }
 }
