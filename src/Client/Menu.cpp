@@ -18,7 +18,7 @@ namespace ClientApp {
 
     void Menu::getInput() {
         cin >> choice; 
-        while (choice < 0 || choice > 7) {
+        while (choice < 0 || choice > 8) {
             cout << "Unkown option, please, enter valid number" << endl;
             cin >> choice;
         }

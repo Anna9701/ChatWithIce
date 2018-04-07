@@ -120,4 +120,21 @@ namespace ClientApp {
             cout << endl;
         }
     }
+
+    void Client::changePassword() {
+        clearConsole();
+        string newPassword;
+        cout << "Enter new password: ";
+        cin >> newPassword;
+        for (auto& room : userRooms) {
+            try {
+                room->ChangePassword(user, password, newPassword);
+            } catch (NoSuchUserExist& ex) {
+                cerr << "No such user in room " << room->getName() << ". Something went wrong, we are sorry!" << endl;
+            } catch (WrongPassword& ex) {
+                cerr << "Provided password was incorrect. Cannot change." << endl;
+            }
+        }
+        password = newPassword;
+    }
 }

@@ -36,6 +36,9 @@ int main(int argc, char* argv[]) {
             case 6:
                 client.printUsersInRoom();
                 break;
+            case 8:
+                client.changePassword();
+                break;
             case 0:
                 return status;
         }

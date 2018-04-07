@@ -21,6 +21,7 @@
                 void joinToRoom();
                 void printUsersInRoom() const;
                 void leaveRoom();
+                void changePassword();
                 ~Client();
             private:
                 string username;
