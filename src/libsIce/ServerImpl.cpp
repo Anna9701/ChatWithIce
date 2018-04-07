@@ -1,38 +1,41 @@
 #include "ServerImpl.h"
 
-void ServerImpl::RegisterUser(const string& username, const string& password, const ::Ice::Current&) {
-    UserPtr user = new UserImpl(username);
- //   usersList.push_back(user); -> not here? in room? 
-    cout << password << endl << user->getName() << endl;
-}
-/*******************************NOT IMPLEMENTED YET**********************************************************************/
 RoomPrx ServerImpl::CreateRoom(const string& name, const ::Ice::Current&) {
-    cout << name;
-    return NULL;
+    for (auto &room : roomList) {
+        if (room->getName() == name) {
+            throw new RoomAlreadyExist();
+        }
+    }
+    //TODO random select room factory
+    RoomFactoryPrx roomFactory = roomFactoryList.back();
+    RoomPrx room = roomFactory->createRoom(name);
+    roomList.push_back(room);
+    return room;
 }
 
 RoomList ServerImpl::getRooms(const ::Ice::Current&) {
-    RoomList roomList;
     return roomList;
 }
 
 RoomPrx ServerImpl::FindRoom(const string& name, const ::Ice::Current& ) {
-    cout << name;
-    return NULL;   
-}
-
-void ServerImpl::ChangePassword(const UserPrx& user, const string& oldPassword, const string& newPassword, const ::Ice::Current&) {
-    cout << oldPassword << newPassword << user;
-}
-
-void ServerImpl::getPassword(const string& username, const ::Ice::Current&) {
-    cout << username;
+    for (auto &room : roomList) {
+        if (room->getName() == name) {
+            return room;
+        }
+    }
+    throw new NoSuchRoomExist();   
 }
 
 void ServerImpl::RegisterRoomFactory(const RoomFactoryPrx& roomFactory, const ::Ice::Current&) {
-    cout << roomFactory;
+    roomFactoryList.push_back(roomFactory);
 }
 
 void ServerImpl::UnregisterRoomFactory(const RoomFactoryPrx& roomFactory, const ::Ice::Current&) {
-    cout << roomFactory;
+    for (auto registredFactoryIt = roomFactoryList.begin(); registredFactoryIt != roomFactoryList.end(); ) {
+        if (*registredFactoryIt == roomFactory) {
+            registredFactoryIt = roomFactoryList.erase(registredFactoryIt);
+        } else {
+            ++registredFactoryIt;
+        }
+    }
 }

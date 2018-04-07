@@ -9,7 +9,7 @@ void Client::setPassword(const string& password) {
 }
 
 void Client::sendUser() const {
-    server->RegisterUser(username, password);
+  //  server->RegisterUser(username, password);
 }
 
 Client::Client(int argc, char* argv[]) {
