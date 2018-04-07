@@ -63,6 +63,7 @@ namespace ClientApp {
         try {
             RoomPrx room = server->FindRoom(name);
             room->AddUser(user, password);
+            userRooms.push_back(room);
         } catch (NoSuchRoomExist& ex) {
             cerr << ex << endl;
         } catch (UserAlreadyExists& ex) {
@@ -92,6 +93,26 @@ namespace ClientApp {
         cout << "Enter the name of the room:" << endl;
         cin >> roomName;
         return roomName;
+    }
+
+    void Client::leaveRoom() {
+        clearConsole();
+        string roomName = getNameOfTheRoom();
+        for (auto roomsIterator =  userRooms.begin(); roomsIterator != userRooms.end(); ++roomsIterator) {
+            if ((*roomsIterator)->getName() == roomName) {
+                try {
+                    (*roomsIterator)->LeaveRoom(user, password);
+                    cout << "Leaving room " << roomName << endl;
+                    userRooms.erase(roomsIterator);
+                    return;
+                } catch (NoSuchUserExist& ex) {
+                    cerr << "Ooopss.. something is wrong. You couldn't be found on user list for that room. Sorry!" << endl;
+                } catch (WrongPassword& ex) {
+                    cerr << "Provided password was incorrect. Can't remove user from room" << endl;
+                }
+            }
+        }
+        cerr << "You were not joined to room " << roomName << endl;
     }
 
     void Client::clearConsole() const {

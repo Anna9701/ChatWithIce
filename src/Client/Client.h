@@ -20,6 +20,7 @@
                 void printListAllRooms() const;
                 void joinToRoom();
                 void printUsersInRoom() const;
+                void leaveRoom();
                 ~Client();
             private:
                 string username;
@@ -29,7 +30,7 @@
                 Ice::CommunicatorPtr iceCommunicator;
                 Ice::ObjectAdapterPtr adapter;
                 PortsUtil portsUtil;
-                RoomList usersRooms;
+                RoomList userRooms;
 
                 void createUser();
                 string getNameOfTheRoom() const;

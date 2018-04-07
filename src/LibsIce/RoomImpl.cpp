@@ -34,6 +34,7 @@ namespace LibsIce {
     }
 
     void RoomImpl::LeaveRoom(const UserPrx& user, const string& password, const ::Ice::Current&) {
+        
         auto userSavedInRoom = usernamesWithPasswords.find(user->getName());
         if (userSavedInRoom == usernamesWithPasswords.end()) {
             throw new NoSuchUserExist();
@@ -41,15 +42,14 @@ namespace LibsIce {
         if (userSavedInRoom->second != password) {
             throw new WrongPassword();
         }
-
         usernamesWithPasswords.erase(userSavedInRoom);
-        for (auto it = users.begin(); it != users.end(); ) {
-            if (*it == user) {
-                it = users.erase(it);
-            } else {
-                ++it;
-            }
+        for (auto usersIterator = users.begin(); usersIterator != users.end(); ++usersIterator) {
+            if ((*usersIterator) == user) {
+                usersIterator = users.erase(usersIterator);
+                break;
+            } 
         }
+        cout << "Removed user " << user->getName() << " from room" << endl;
     }
 
     void RoomImpl::Destroy(const ::Ice::Current&) {

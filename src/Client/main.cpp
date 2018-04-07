@@ -30,6 +30,9 @@ int main(int argc, char* argv[]) {
             case 3:
                 client.joinToRoom();
                 break;
+            case 4:
+                client.leaveRoom();
+                break;
             case 6:
                 client.printUsersInRoom();
                 break;
