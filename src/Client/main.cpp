@@ -3,6 +3,7 @@
 #include "Menu.h"
 
 using namespace std;
+using namespace ClientApp;
 
 int main(int argc, char* argv[]) {
     int status = 0;

@@ -2,6 +2,7 @@
 #include "chat.h"
 #include "ServerImpl.h"
 
+using namespace LibsIce;
 using namespace std;
 
 int main(int argc, char* argv[]) {
