@@ -7,18 +7,22 @@ namespace ClientApp {
 
     void Client::createUser() {
         UserPtr object = new UserImpl(username);
-        int port = getRandomPort();
-        adapter = iceCommunicator->createObjectAdapterWithEndpoints("User" + username, "default -p " + to_string(port));
+        int port = portsUtil.getRandomPort();
+        adapter = iceCommunicator->createObjectAdapterWithEndpoints("User" + username, 
+                                                        "default -p " + to_string(port));
         adapter->add(object, iceCommunicator->stringToIdentity("User" + username));
         adapter->activate();
-        Ice::ObjectPrx base = iceCommunicator->stringToProxy("User" + username + ":default -p " + to_string(port));
+        Ice::ObjectPrx base = iceCommunicator->stringToProxy("User" + username 
+                                                + ":default -p " + to_string(port));
         user = UserPrx::checkedCast(base);
     }
 
     Client::Client(const string& name, const string& passwd) : username(name), password(passwd) {
         try {
             iceCommunicator = Ice::initialize();
-            Ice::ObjectPrx base = iceCommunicator->stringToProxy("Server:default -p 10000");
+            int serverPort = portsUtil.getServerPort();
+            Ice::ObjectPrx base = iceCommunicator->stringToProxy("Server:default -p " 
+                                                            + to_string(serverPort));
             server = ServerPrx::checkedCast(base);
             if (!server)
                 throw "Invalid proxy";
@@ -44,13 +48,5 @@ namespace ClientApp {
 
     void Client::printListAllRooms() const {
 
-    }
-
-    int Client::getRandomPort() const {
-        random_device rseed;
-        mt19937 randomGenerator(rseed());
-        uniform_int_distribution<> distribution(MIN_PORT_NUMBER, MAX_PORT_NUMBER);
-
-        return distribution(randomGenerator);
     }
 }

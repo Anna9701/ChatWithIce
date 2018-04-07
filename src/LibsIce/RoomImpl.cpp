@@ -18,7 +18,10 @@ namespace LibsIce {
                                         pair<string, string>(user->getName(), password));
     }
 
-    void RoomImpl::ChangePassword(const UserPrx& user, const string& oldPassword, const string& newPassword, const ::Ice::Current&) {
+    void RoomImpl::ChangePassword(const UserPrx& user, 
+                                const string& oldPassword, 
+                                const string& newPassword, 
+                                const ::Ice::Current&) {
         auto username = user->getName();
         auto userSavedInRoom = usernamesWithPasswords.find(username);
         if (userSavedInRoom == usernamesWithPasswords.end()) {
@@ -54,7 +57,10 @@ namespace LibsIce {
         users.clear();
     }
 
-    void RoomImpl::SendMessage(const UserPrx& user, const string& message, const string& password, const ::Ice::Current&) {
+    void RoomImpl::SendMessage(const UserPrx& user, 
+                            const string& message, 
+                            const string& password, 
+                            const ::Ice::Current&) {
         auto userSavedInRoom = usernamesWithPasswords.find(user->getName());
         if (userSavedInRoom == usernamesWithPasswords.end()) {
             throw new NoSuchUserExist();

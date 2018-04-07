@@ -1,14 +1,10 @@
 #ifndef FACTORY_H
     #define FACTORY_H
 
-    #define MAX_PORT_NUMBER 51000
-    #define MIN_PORT_NUMBER 10001
-
     #include <Ice/Ice.h>
     #include "chat.h"
     #include "RoomFactoryImpl.h"
-    #include <random>
-    #include <cstdlib>
+    #include "PortsUtil.h"
 
     using namespace std;
     using namespace Chat;
@@ -26,8 +22,7 @@
                 Ice::CommunicatorPtr iceCommunicator;
                 Ice::ObjectAdapterPtr adapter;
                 RoomFactoryPrx roomFactory;
-
-                int getRandomPort() const;
+                PortsUtil portsUtil;
         };
     }
 

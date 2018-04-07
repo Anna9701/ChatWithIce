@@ -1,14 +1,11 @@
 #ifndef CLIENT_H
     #define CLIENT_H
 
-    #define MAX_PORT_NUMBER 51000
-    #define MIN_PORT_NUMBER 10001
-
     #include <thread>
     #include <Ice/Ice.h>
     #include "chat.h"
     #include "UserImpl.h"
-    #include <random>
+    #include "PortsUtil.h"
     
     using namespace std;
     using namespace Chat;
@@ -29,9 +26,9 @@
                 ServerPrx server;
                 Ice::CommunicatorPtr iceCommunicator;
                 Ice::ObjectAdapterPtr adapter;
+                PortsUtil portsUtil;
 
                 void createUser();
-                int getRandomPort() const;
         }; 
     }
 

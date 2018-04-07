@@ -8,10 +8,15 @@ namespace LibsIce {
     RoomPrx RoomFactoryImpl::createRoom(const string& name, const ::Ice::Current&) {
         RoomPtr object = new RoomImpl(name);
         cout << "RoomFactory::Creating room " << name << endl;
-        adapter = ic->createObjectAdapterWithEndpoints("SimpleRoom" + name, "default -p 10003");
+        int port = portsUtil.getRandomPort();
+
+        adapter = ic->createObjectAdapterWithEndpoints("SimpleRoom" + name, 
+                                            "default -p " + to_string(port));
         adapter->add(object, ic->stringToIdentity("SimpleRoom" + name));
-        Ice::ObjectPrx base = ic->stringToProxy("SimpleRoom" + name + ":default -p 10003");
+        Ice::ObjectPrx base = ic->stringToProxy("SimpleRoom" + name 
+                                            + ":default -p " + to_string(port));
         RoomPrx room = RoomPrx::checkedCast(base);
+
         roomList.push_back(room);
         cout << "RoomFactory::Room created" << endl;
         return room;

@@ -1,21 +1,24 @@
 #include <Ice/Ice.h>
 #include "chat.h"
 #include "ServerImpl.h"
+#include "PortsUtil.h"
 
 using namespace LibsIce;
 using namespace std;
 
 int main(int argc, char* argv[]) {
     int status = 0;
-
-    Ice::CommunicatorPtr ic;
+    PortsUtil portsUtil;
+    Ice::CommunicatorPtr iceCommunicator;
     try {
-        ic = Ice::initialize(argc, argv);
-        Ice::ObjectAdapterPtr adapter = ic->createObjectAdapterWithEndpoints("ServerAdapter", "default -p 10000");
+        iceCommunicator = Ice::initialize(argc, argv);
+        int serverPort = portsUtil.getServerPort();
+        Ice::ObjectAdapterPtr adapter = iceCommunicator->createObjectAdapterWithEndpoints("ServerAdapter", 
+                                                                    "default -p " + to_string(serverPort));
         Ice::ObjectPtr object = new ServerImpl();
-        adapter->add(object, ic->stringToIdentity("Server"));
+        adapter->add(object, iceCommunicator->stringToIdentity("Server"));
         adapter->activate();
-        ic->waitForShutdown();
+        iceCommunicator->waitForShutdown();
     } catch (const Ice::Exception& e) {
         cerr << e << endl;
         status = 1;
