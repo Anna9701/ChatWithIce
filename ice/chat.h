@@ -199,6 +199,24 @@ protected:
     using ::Ice::UserException::__readImpl;
 };
 
+class NoResourcesAvailable : public ::Ice::UserException
+{
+public:
+
+    NoResourcesAvailable() {}
+    virtual ~NoResourcesAvailable() throw();
+
+    virtual ::std::string ice_name() const;
+    virtual NoResourcesAvailable* ice_clone() const;
+    virtual void ice_throw() const;
+
+protected:
+    virtual void __writeImpl(::IceInternal::BasicStream*) const;
+    virtual void __readImpl(::IceInternal::BasicStream*);
+    using ::Ice::UserException::__writeImpl;
+    using ::Ice::UserException::__readImpl;
+};
+
 typedef ::std::vector< ::Chat::RoomPrx> RoomList;
 
 typedef ::std::vector< ::Chat::RoomFactoryPrx> RoomFactoryList;
@@ -237,6 +255,12 @@ struct StreamableTraits< ::Chat::NoSuchRoomExist>
 
 template<>
 struct StreamableTraits< ::Chat::RoomAlreadyExist>
+{
+    static const StreamHelperCategory helper = StreamHelperCategoryUserException;
+};
+
+template<>
+struct StreamableTraits< ::Chat::NoResourcesAvailable>
 {
     static const StreamHelperCategory helper = StreamHelperCategoryUserException;
 };

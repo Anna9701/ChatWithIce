@@ -8,6 +8,7 @@ exception NoSuchUserExist {};
 exception WrongPassword {};
 exception NoSuchRoomExist {};
 exception RoomAlreadyExist {};
+exception NoResourcesAvailable {};
 
 interface User {
   void SendMessage(Room* where, User* who, string message);
@@ -19,7 +20,7 @@ sequence<Room*> RoomList;
 sequence<RoomFactory*> RoomFactoryList;
 
 interface Server {
-  Room* CreateRoom(string name) throws RoomAlreadyExist;
+  Room* CreateRoom(string name) throws RoomAlreadyExist, NoResourcesAvailable;
   RoomList getRooms();
   Room* FindRoom(string name) throws NoSuchRoomExist;
   //void RegisterUser(string name, string password) throws UserAlreadyExists;

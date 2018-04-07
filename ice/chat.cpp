@@ -294,6 +294,49 @@ Chat::RoomAlreadyExist::__readImpl(::IceInternal::BasicStream* __is)
     __is->endReadSlice();
 }
 
+namespace
+{
+
+const ::IceInternal::DefaultUserExceptionFactoryInit< ::Chat::NoResourcesAvailable> __Chat__NoResourcesAvailable_init("::Chat::NoResourcesAvailable");
+
+}
+
+Chat::NoResourcesAvailable::~NoResourcesAvailable() throw()
+{
+}
+
+::std::string
+Chat::NoResourcesAvailable::ice_name() const
+{
+    return "Chat::NoResourcesAvailable";
+}
+
+Chat::NoResourcesAvailable*
+Chat::NoResourcesAvailable::ice_clone() const
+{
+    return new NoResourcesAvailable(*this);
+}
+
+void
+Chat::NoResourcesAvailable::ice_throw() const
+{
+    throw *this;
+}
+
+void
+Chat::NoResourcesAvailable::__writeImpl(::IceInternal::BasicStream* __os) const
+{
+    __os->startWriteSlice("::Chat::NoResourcesAvailable", -1, true);
+    __os->endWriteSlice();
+}
+
+void
+Chat::NoResourcesAvailable::__readImpl(::IceInternal::BasicStream* __is)
+{
+    __is->startReadSlice();
+    __is->endReadSlice();
+}
+
 namespace Ice
 {
 }
@@ -563,6 +606,10 @@ IceProxy::Chat::Server::CreateRoom(const ::std::string& __p_name, const ::Ice::C
         {
             __og.throwUserException();
         }
+        catch(const ::Chat::NoResourcesAvailable&)
+        {
+            throw;
+        }
         catch(const ::Chat::RoomAlreadyExist&)
         {
             throw;
@@ -653,6 +700,10 @@ IceProxy::Chat::Server::end_CreateRoom(const ::Ice::AsyncResultPtr& __result)
         try
         {
             __result->__throwUserException();
+        }
+        catch(const ::Chat::NoResourcesAvailable&)
+        {
+            throw;
         }
         catch(const ::Chat::RoomAlreadyExist&)
         {
@@ -2095,6 +2146,10 @@ Chat::Server::___CreateRoom(::IceInternal::Incoming& __inS, const ::Ice::Current
         __os->write(__ret);
         __inS.__endWriteParams(true);
         return ::Ice::DispatchOK;
+    }
+    catch(const ::Chat::NoResourcesAvailable& __ex)
+    {
+        __inS.__writeUserException(__ex, ::Ice::DefaultFormat);
     }
     catch(const ::Chat::RoomAlreadyExist& __ex)
     {

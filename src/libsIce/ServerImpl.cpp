@@ -7,9 +7,14 @@ RoomPrx ServerImpl::CreateRoom(const string& name, const ::Ice::Current&) {
         }
     }
     //TODO random select room factory
+    if (roomFactoryList.empty()) {
+        throw NoResourcesAvailable();
+    }
     RoomFactoryPrx roomFactory = roomFactoryList.back();
     RoomPrx room = roomFactory->createRoom(name);
+    cout << "Creating room with name: " << name << endl;
     roomList.push_back(room);
+    cout << "Room " << name << " created." << endl;
     return room;
 }
 
@@ -28,6 +33,7 @@ RoomPrx ServerImpl::FindRoom(const string& name, const ::Ice::Current& ) {
 
 void ServerImpl::RegisterRoomFactory(const RoomFactoryPrx& roomFactory, const ::Ice::Current&) {
     roomFactoryList.push_back(roomFactory);
+    cout << "Room factory registred " << endl;
 }
 
 void ServerImpl::UnregisterRoomFactory(const RoomFactoryPrx& roomFactory, const ::Ice::Current&) {

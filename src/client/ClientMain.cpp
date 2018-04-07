@@ -1,10 +1,12 @@
 #include "Client.h"
 #include "ServerImpl.h"
+#include "Menu.h"
 
 using namespace std;
 
 int main(int argc, char* argv[]) {
     int status = 0;
+    Menu menu;
     Client client(argc, argv);
     string clientInput;
 
@@ -15,7 +17,17 @@ int main(int argc, char* argv[]) {
     cin >> clientInput;
     client.setPassword(clientInput);
 
-    client.sendUser();
+    while (true) {
+        menu.printMenu();
+        int choice = menu.getChoice();
+        switch (choice) {
+            case 1:
+                client.createRoom();
+                break;
+            case 0:
+                return status;
+        }
+    }
 
     return status;
 }

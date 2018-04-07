@@ -9,9 +9,9 @@ int main(int argc, char* argv[]) {
     Ice::CommunicatorPtr ic;
     try {
         ic = Ice::initialize(argc, argv);
-        Ice::ObjectAdapterPtr adapter = ic->createObjectAdapterWithEndpoints("SimpleServerAdapter", "default -p 10000");
+        Ice::ObjectAdapterPtr adapter = ic->createObjectAdapterWithEndpoints("ServerAdapter", "default -p 10000");
         Ice::ObjectPtr object = new ServerImpl();
-        adapter->add(object, ic->stringToIdentity("SimpleServer"));
+        adapter->add(object, ic->stringToIdentity("Server"));
         adapter->activate();
         ic->waitForShutdown();
     } catch (const Ice::Exception& e) {
