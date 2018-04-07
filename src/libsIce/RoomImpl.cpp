@@ -62,5 +62,7 @@ void RoomImpl::SendMessage(const UserPrx& user, const string& message, const str
     if (savedPassword != password) {
         throw new WrongPassword();
     }
-    cout << user.getName() << " wrote: " << message << endl;
+    for (auto& userInRoom : users) {
+        userInRoom->SendMessage(this, user, message)
+    }
 }

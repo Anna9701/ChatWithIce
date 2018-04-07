@@ -11,8 +11,8 @@
         public:
             UserImpl(const string& n) : name(n){};
             virtual string getName(const Ice::Current&) override;
-            virtual void SendMessage(const RoomPrx&, const UserPrx&, const string&, const ::Ice::Current& = ::Ice::Current()) {} //TODO
-            virtual void SendPrivateMessage(const UserPrx&, const string&, const ::Ice::Current& = ::Ice::Current()) {}
+            virtual void SendMessage(const RoomPrx&, const UserPrx&, const string&, const ::Ice::Current& = ::Ice::Current()) override;
+            virtual void SendPrivateMessage(const UserPrx&, const string&, const ::Ice::Current& = ::Ice::Current()) override;
         private:
             string name;
     };

@@ -253,9 +253,6 @@ typedef ::IceUtil::Handle< Callback_User_SendPrivateMessage_Base> Callback_User_
 class Callback_User_getName_Base : virtual public ::IceInternal::CallbackBase { };
 typedef ::IceUtil::Handle< Callback_User_getName_Base> Callback_User_getNamePtr;
 
-class Callback_User_getPassword_Base : virtual public ::IceInternal::CallbackBase { };
-typedef ::IceUtil::Handle< Callback_User_getPassword_Base> Callback_User_getPasswordPtr;
-
 class Callback_Server_CreateRoom_Base : virtual public ::IceInternal::CallbackBase { };
 typedef ::IceUtil::Handle< Callback_Server_CreateRoom_Base> Callback_Server_CreateRoomPtr;
 
@@ -523,82 +520,6 @@ private:
 
     ::std::string getName(const ::Ice::Context*);
     ::Ice::AsyncResultPtr begin_getName(const ::Ice::Context*, const ::IceInternal::CallbackBasePtr&, const ::Ice::LocalObjectPtr& __cookie = 0);
-    
-public:
-
-    ::std::string getPassword()
-    {
-        return getPassword(0);
-    }
-    ::std::string getPassword(const ::Ice::Context& __ctx)
-    {
-        return getPassword(&__ctx);
-    }
-#ifdef ICE_CPP11
-    ::Ice::AsyncResultPtr
-    begin_getPassword(const ::IceInternal::Function<void (const ::std::string&)>& __response, const ::IceInternal::Function<void (const ::Ice::Exception&)>& __exception = ::IceInternal::Function<void (const ::Ice::Exception&)>(), const ::IceInternal::Function<void (bool)>& __sent = ::IceInternal::Function<void (bool)>())
-    {
-        return __begin_getPassword(0, __response, __exception, __sent);
-    }
-    ::Ice::AsyncResultPtr
-    begin_getPassword(const ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>& __completed, const ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>& __sent = ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>())
-    {
-        return begin_getPassword(0, ::Ice::newCallback(__completed, __sent), 0);
-    }
-    ::Ice::AsyncResultPtr
-    begin_getPassword(const ::Ice::Context& __ctx, const ::IceInternal::Function<void (const ::std::string&)>& __response, const ::IceInternal::Function<void (const ::Ice::Exception&)>& __exception = ::IceInternal::Function<void (const ::Ice::Exception&)>(), const ::IceInternal::Function<void (bool)>& __sent = ::IceInternal::Function<void (bool)>())
-    {
-        return __begin_getPassword(&__ctx, __response, __exception, __sent);
-    }
-    ::Ice::AsyncResultPtr
-    begin_getPassword(const ::Ice::Context& __ctx, const ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>& __completed, const ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>& __sent = ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>())
-    {
-        return begin_getPassword(&__ctx, ::Ice::newCallback(__completed, __sent));
-    }
-    
-private:
-
-    ::Ice::AsyncResultPtr __begin_getPassword(const ::Ice::Context* __ctx, const ::IceInternal::Function<void (const ::std::string&)>& __response, const ::IceInternal::Function<void (const ::Ice::Exception&)>& __exception, const ::IceInternal::Function<void (bool)>& __sent);
-    
-public:
-#endif
-
-    ::Ice::AsyncResultPtr begin_getPassword()
-    {
-        return begin_getPassword(0, ::IceInternal::__dummyCallback, 0);
-    }
-
-    ::Ice::AsyncResultPtr begin_getPassword(const ::Ice::Context& __ctx)
-    {
-        return begin_getPassword(&__ctx, ::IceInternal::__dummyCallback, 0);
-    }
-
-    ::Ice::AsyncResultPtr begin_getPassword(const ::Ice::CallbackPtr& __del, const ::Ice::LocalObjectPtr& __cookie = 0)
-    {
-        return begin_getPassword(0, __del, __cookie);
-    }
-
-    ::Ice::AsyncResultPtr begin_getPassword(const ::Ice::Context& __ctx, const ::Ice::CallbackPtr& __del, const ::Ice::LocalObjectPtr& __cookie = 0)
-    {
-        return begin_getPassword(&__ctx, __del, __cookie);
-    }
-
-    ::Ice::AsyncResultPtr begin_getPassword(const ::Chat::Callback_User_getPasswordPtr& __del, const ::Ice::LocalObjectPtr& __cookie = 0)
-    {
-        return begin_getPassword(0, __del, __cookie);
-    }
-
-    ::Ice::AsyncResultPtr begin_getPassword(const ::Ice::Context& __ctx, const ::Chat::Callback_User_getPasswordPtr& __del, const ::Ice::LocalObjectPtr& __cookie = 0)
-    {
-        return begin_getPassword(&__ctx, __del, __cookie);
-    }
-
-    ::std::string end_getPassword(const ::Ice::AsyncResultPtr&);
-    
-private:
-
-    ::std::string getPassword(const ::Ice::Context*);
-    ::Ice::AsyncResultPtr begin_getPassword(const ::Ice::Context*, const ::IceInternal::CallbackBasePtr&, const ::Ice::LocalObjectPtr& __cookie = 0);
     
 public:
     
@@ -2120,9 +2041,6 @@ public:
     virtual ::std::string getName(const ::Ice::Current& = ::Ice::Current()) = 0;
     ::Ice::DispatchStatus ___getName(::IceInternal::Incoming&, const ::Ice::Current&);
 
-    virtual ::std::string getPassword(const ::Ice::Current& = ::Ice::Current()) = 0;
-    ::Ice::DispatchStatus ___getPassword(::IceInternal::Incoming&, const ::Ice::Current&);
-
     virtual ::Ice::DispatchStatus __dispatch(::IceInternal::Incoming&, const ::Ice::Current&);
 
 protected:
@@ -2548,110 +2466,6 @@ template<class T, typename CT> Callback_User_getNamePtr
 newCallback_User_getName(T* instance, void (T::*cb)(const ::std::string&, const CT&), void (T::*excb)(const ::Ice::Exception&, const CT&), void (T::*sentcb)(bool, const CT&) = 0)
 {
     return new Callback_User_getName<T, CT>(instance, cb, excb, sentcb);
-}
-
-template<class T>
-class CallbackNC_User_getPassword : public Callback_User_getPassword_Base, public ::IceInternal::TwowayCallbackNC<T>
-{
-public:
-
-    typedef IceUtil::Handle<T> TPtr;
-
-    typedef void (T::*Exception)(const ::Ice::Exception&);
-    typedef void (T::*Sent)(bool);
-    typedef void (T::*Response)(const ::std::string&);
-
-    CallbackNC_User_getPassword(const TPtr& obj, Response cb, Exception excb, Sent sentcb)
-        : ::IceInternal::TwowayCallbackNC<T>(obj, cb != 0, excb, sentcb), _response(cb)
-    {
-    }
-
-    virtual void completed(const ::Ice::AsyncResultPtr& __result) const
-    {
-        ::Chat::UserPrx __proxy = ::Chat::UserPrx::uncheckedCast(__result->getProxy());
-        ::std::string __ret;
-        try
-        {
-            __ret = __proxy->end_getPassword(__result);
-        }
-        catch(const ::Ice::Exception& ex)
-        {
-            ::IceInternal::CallbackNC<T>::exception(__result, ex);
-            return;
-        }
-        if(_response)
-        {
-            (::IceInternal::CallbackNC<T>::_callback.get()->*_response)(__ret);
-        }
-    }
-
-    private:
-
-    Response _response;
-};
-
-template<class T> Callback_User_getPasswordPtr
-newCallback_User_getPassword(const IceUtil::Handle<T>& instance, void (T::*cb)(const ::std::string&), void (T::*excb)(const ::Ice::Exception&), void (T::*sentcb)(bool) = 0)
-{
-    return new CallbackNC_User_getPassword<T>(instance, cb, excb, sentcb);
-}
-
-template<class T> Callback_User_getPasswordPtr
-newCallback_User_getPassword(T* instance, void (T::*cb)(const ::std::string&), void (T::*excb)(const ::Ice::Exception&), void (T::*sentcb)(bool) = 0)
-{
-    return new CallbackNC_User_getPassword<T>(instance, cb, excb, sentcb);
-}
-
-template<class T, typename CT>
-class Callback_User_getPassword : public Callback_User_getPassword_Base, public ::IceInternal::TwowayCallback<T, CT>
-{
-public:
-
-    typedef IceUtil::Handle<T> TPtr;
-
-    typedef void (T::*Exception)(const ::Ice::Exception& , const CT&);
-    typedef void (T::*Sent)(bool , const CT&);
-    typedef void (T::*Response)(const ::std::string&, const CT&);
-
-    Callback_User_getPassword(const TPtr& obj, Response cb, Exception excb, Sent sentcb)
-        : ::IceInternal::TwowayCallback<T, CT>(obj, cb != 0, excb, sentcb), _response(cb)
-    {
-    }
-
-    virtual void completed(const ::Ice::AsyncResultPtr& __result) const
-    {
-        ::Chat::UserPrx __proxy = ::Chat::UserPrx::uncheckedCast(__result->getProxy());
-        ::std::string __ret;
-        try
-        {
-            __ret = __proxy->end_getPassword(__result);
-        }
-        catch(const ::Ice::Exception& ex)
-        {
-            ::IceInternal::Callback<T, CT>::exception(__result, ex);
-            return;
-        }
-        if(_response)
-        {
-            (::IceInternal::Callback<T, CT>::_callback.get()->*_response)(__ret, CT::dynamicCast(__result->getCookie()));
-        }
-    }
-
-    private:
-
-    Response _response;
-};
-
-template<class T, typename CT> Callback_User_getPasswordPtr
-newCallback_User_getPassword(const IceUtil::Handle<T>& instance, void (T::*cb)(const ::std::string&, const CT&), void (T::*excb)(const ::Ice::Exception&, const CT&), void (T::*sentcb)(bool, const CT&) = 0)
-{
-    return new Callback_User_getPassword<T, CT>(instance, cb, excb, sentcb);
-}
-
-template<class T, typename CT> Callback_User_getPasswordPtr
-newCallback_User_getPassword(T* instance, void (T::*cb)(const ::std::string&, const CT&), void (T::*excb)(const ::Ice::Exception&, const CT&), void (T::*sentcb)(bool, const CT&) = 0)
-{
-    return new Callback_User_getPassword<T, CT>(instance, cb, excb, sentcb);
 }
 
 template<class T>

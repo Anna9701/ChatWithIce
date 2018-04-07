@@ -49,8 +49,6 @@ const ::std::string __Chat__User__SendPrivateMessage_name = "SendPrivateMessage"
 
 const ::std::string __Chat__User__getName_name = "getName";
 
-const ::std::string __Chat__User__getPassword_name = "getPassword";
-
 const ::std::string __Chat__Server__CreateRoom_name = "CreateRoom";
 
 const ::std::string __Chat__Server__getRooms_name = "getRooms";
@@ -497,114 +495,6 @@ IceProxy::Chat::User::__begin_getName(const ::Ice::Context* __ctx, const ::IceIn
 IceProxy::Chat::User::end_getName(const ::Ice::AsyncResultPtr& __result)
 {
     ::Ice::AsyncResult::__check(__result, this, __Chat__User__getName_name);
-    ::std::string __ret;
-    if(!__result->__wait())
-    {
-        try
-        {
-            __result->__throwUserException();
-        }
-        catch(const ::Ice::UserException& __ex)
-        {
-            throw ::Ice::UnknownUserException(__FILE__, __LINE__, __ex.ice_name());
-        }
-    }
-    ::IceInternal::BasicStream* __is = __result->__startReadParams();
-    __is->read(__ret);
-    __result->__endReadParams();
-    return __ret;
-}
-
-::std::string
-IceProxy::Chat::User::getPassword(const ::Ice::Context* __ctx)
-{
-    __checkTwowayOnly(__Chat__User__getPassword_name);
-    ::IceInternal::Outgoing __og(this, __Chat__User__getPassword_name, ::Ice::Normal, __ctx);
-    __og.writeEmptyParams();
-    if(!__og.invoke())
-    {
-        try
-        {
-            __og.throwUserException();
-        }
-        catch(const ::Ice::UserException& __ex)
-        {
-            ::Ice::UnknownUserException __uue(__FILE__, __LINE__, __ex.ice_name());
-            throw __uue;
-        }
-    }
-    ::std::string __ret;
-    ::IceInternal::BasicStream* __is = __og.startReadParams();
-    __is->read(__ret);
-    __og.endReadParams();
-    return __ret;
-}
-
-::Ice::AsyncResultPtr
-IceProxy::Chat::User::begin_getPassword(const ::Ice::Context* __ctx, const ::IceInternal::CallbackBasePtr& __del, const ::Ice::LocalObjectPtr& __cookie)
-{
-    __checkAsyncTwowayOnly(__Chat__User__getPassword_name);
-    ::IceInternal::OutgoingAsyncPtr __result = new ::IceInternal::OutgoingAsync(this, __Chat__User__getPassword_name, __del, __cookie);
-    try
-    {
-        __result->prepare(__Chat__User__getPassword_name, ::Ice::Normal, __ctx);
-        __result->writeEmptyParams();
-        __result->invoke();
-    }
-    catch(const ::Ice::Exception& __ex)
-    {
-        __result->abort(__ex);
-    }
-    return __result;
-}
-
-#ifdef ICE_CPP11
-
-::Ice::AsyncResultPtr
-IceProxy::Chat::User::__begin_getPassword(const ::Ice::Context* __ctx, const ::IceInternal::Function<void (const ::std::string&)>& __response, const ::IceInternal::Function<void (const ::Ice::Exception&)>& __exception, const ::IceInternal::Function<void (bool)>& __sent)
-{
-    class Cpp11CB : public ::IceInternal::Cpp11FnCallbackNC
-    {
-    public:
-
-        Cpp11CB(const ::std::function<void (const ::std::string&)>& responseFunc, const ::std::function<void (const ::Ice::Exception&)>& exceptionFunc, const ::std::function<void (bool)>& sentFunc) :
-            ::IceInternal::Cpp11FnCallbackNC(exceptionFunc, sentFunc),
-            _response(responseFunc)
-        {
-            CallbackBase::checkCallback(true, responseFunc || exceptionFunc != nullptr);
-        }
-
-        virtual void completed(const ::Ice::AsyncResultPtr& __result) const
-        {
-            ::Chat::UserPrx __proxy = ::Chat::UserPrx::uncheckedCast(__result->getProxy());
-            ::std::string __ret;
-            try
-            {
-                __ret = __proxy->end_getPassword(__result);
-            }
-            catch(const ::Ice::Exception& ex)
-            {
-                Cpp11FnCallbackNC::exception(__result, ex);
-                return;
-            }
-            if(_response != nullptr)
-            {
-                _response(__ret);
-            }
-        }
-    
-    private:
-        
-        ::std::function<void (const ::std::string&)> _response;
-    };
-    return begin_getPassword(__ctx, new Cpp11CB(__response, __exception, __sent));
-}
-#endif
-
-::std::string
-IceProxy::Chat::User::end_getPassword(const ::Ice::AsyncResultPtr& __result)
-{
-    ::Ice::AsyncResult::__check(__result, this, __Chat__User__getPassword_name);
     ::std::string __ret;
     if(!__result->__wait())
     {
@@ -2065,18 +1955,6 @@ Chat::User::___getName(::IceInternal::Incoming& __inS, const ::Ice::Current& __c
     return ::Ice::DispatchOK;
 }
 
-::Ice::DispatchStatus
-Chat::User::___getPassword(::IceInternal::Incoming& __inS, const ::Ice::Current& __current)
-{
-    __checkMode(::Ice::Normal, __current.mode);
-    __inS.readEmptyParams();
-    ::std::string __ret = getPassword(__current);
-    ::IceInternal::BasicStream* __os = __inS.__startWriteParams(::Ice::DefaultFormat);
-    __os->write(__ret);
-    __inS.__endWriteParams(true);
-    return ::Ice::DispatchOK;
-}
-
 namespace
 {
 const ::std::string __Chat__User_all[] =
@@ -2084,7 +1962,6 @@ const ::std::string __Chat__User_all[] =
     "SendMessage",
     "SendPrivateMessage",
     "getName",
-    "getPassword",
     "ice_id",
     "ice_ids",
     "ice_isA",
@@ -2096,7 +1973,7 @@ const ::std::string __Chat__User_all[] =
 ::Ice::DispatchStatus
 Chat::User::__dispatch(::IceInternal::Incoming& in, const ::Ice::Current& current)
 {
-    ::std::pair< const ::std::string*, const ::std::string*> r = ::std::equal_range(__Chat__User_all, __Chat__User_all + 8, current.operation);
+    ::std::pair< const ::std::string*, const ::std::string*> r = ::std::equal_range(__Chat__User_all, __Chat__User_all + 7, current.operation);
     if(r.first == r.second)
     {
         throw ::Ice::OperationNotExistException(__FILE__, __LINE__, current.id, current.facet, current.operation);
@@ -2118,21 +1995,17 @@ Chat::User::__dispatch(::IceInternal::Incoming& in, const ::Ice::Current& curren
         }
         case 3:
         {
-            return ___getPassword(in, current);
+            return ___ice_id(in, current);
         }
         case 4:
         {
-            return ___ice_id(in, current);
+            return ___ice_ids(in, current);
         }
         case 5:
         {
-            return ___ice_ids(in, current);
-        }
-        case 6:
-        {
             return ___ice_isA(in, current);
         }
-        case 7:
+        case 6:
         {
             return ___ice_ping(in, current);
         }

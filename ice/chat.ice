@@ -13,7 +13,6 @@ interface User {
   void SendMessage(Room* where, User* who, string message);
   void SendPrivateMessage(User* who, string message);
   string getName();
-  string getPassword();
 };
 
 sequence<Room*> RoomList;

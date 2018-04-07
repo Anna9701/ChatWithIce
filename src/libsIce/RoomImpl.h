@@ -9,6 +9,7 @@
 
     class RoomImpl : public Room {
         public:
+            RoomImpl(const string &n) : roomName(n) {}
             virtual string getName(const ::Ice::Current& = ::Ice::Current()) override;
             virtual UserList getUsers(const ::Ice::Current& = ::Ice::Current()) override;
             virtual void AddUser(const UserPrx&, const string&, const ::Ice::Current& = ::Ice::Current()) override;
