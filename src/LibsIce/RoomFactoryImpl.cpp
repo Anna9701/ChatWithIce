@@ -13,6 +13,7 @@ namespace LibsIce {
         adapter = ic->createObjectAdapterWithEndpoints("SimpleRoom" + name, 
                                             "default -p " + to_string(port));
         adapter->add(object, ic->stringToIdentity("SimpleRoom" + name));
+        adapter->activate();
         Ice::ObjectPrx base = ic->stringToProxy("SimpleRoom" + name 
                                             + ":default -p " + to_string(port));
         RoomPrx room = RoomPrx::checkedCast(base);

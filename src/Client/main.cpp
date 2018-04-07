@@ -27,6 +27,12 @@ int main(int argc, char* argv[]) {
             case 2:
                 client.printListAllRooms();
                 break;
+            case 3:
+                client.joinToRoom();
+                break;
+            case 6:
+                client.printUsersInRoom();
+                break;
             case 0:
                 return status;
         }

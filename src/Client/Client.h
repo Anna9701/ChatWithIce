@@ -18,6 +18,8 @@
                 void setPassword(const string&);
                 void createRoom() const;
                 void printListAllRooms() const;
+                void joinToRoom();
+                void printUsersInRoom() const;
                 ~Client();
             private:
                 string username;
@@ -27,8 +29,11 @@
                 Ice::CommunicatorPtr iceCommunicator;
                 Ice::ObjectAdapterPtr adapter;
                 PortsUtil portsUtil;
+                RoomList usersRooms;
 
                 void createUser();
+                string getNameOfTheRoom() const;
+                void clearConsole() const;
         }; 
     }
 

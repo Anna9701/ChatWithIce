@@ -40,13 +40,63 @@ namespace ClientApp {
     }
 
     void Client::createRoom() const {
+        clearConsole();
         string roomName;
         cout << "Enter name for new room " << endl;
         cin >> roomName;
         server->CreateRoom(roomName);
+        clearConsole();
     }
 
     void Client::printListAllRooms() const {
+        clearConsole();
+        auto rooms = server->getRooms();
+        cout << "Available rooms are: " << endl;
+        for (auto room : rooms) {
+            cout << room->getName() << endl;
+        }
+        cout << endl;
+    }
 
+    void Client::joinToRoom() {
+        string name = getNameOfTheRoom();
+        try {
+            RoomPrx room = server->FindRoom(name);
+            room->AddUser(user, password);
+        } catch (NoSuchRoomExist& ex) {
+            cerr << ex << endl;
+        } catch (UserAlreadyExists& ex) {
+            cerr << ex << endl;
+        }
+        clearConsole();
+    }
+
+    void Client::printUsersInRoom() const {
+        clearConsole();
+        string roomName = getNameOfTheRoom();
+        cout << "Users available in room " << roomName << endl;
+        try {
+            RoomPrx room = server->FindRoom(roomName);
+            auto users = room->getUsers();
+            for (auto& user : users) {
+                cout << user->getName() << endl;
+            }
+        } catch (NoSuchRoomExist& ex) {
+            cerr << ex << endl;
+        }
+    }
+
+    string Client::getNameOfTheRoom() const {
+        clearConsole();
+        string roomName;
+        cout << "Enter the name of the room:" << endl;
+        cin >> roomName;
+        return roomName;
+    }
+
+    void Client::clearConsole() const {
+        for (unsigned int i = 0; i < 100; ++i) {
+            cout << endl;
+        }
     }
 }
