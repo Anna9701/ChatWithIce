@@ -205,6 +205,8 @@ typedef ::std::vector< ::Chat::RoomFactoryPrx> RoomFactoryList;
 
 typedef ::std::vector< ::Chat::UserPrx> UserList;
 
+typedef ::std::map< ::std::string, ::std::string> UsernamesWithPasswordList;
+
 }
 
 namespace Ice

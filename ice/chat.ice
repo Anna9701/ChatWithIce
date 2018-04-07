@@ -29,6 +29,7 @@ interface Server {
 };
 
 sequence<User*> UserList;
+dictionary<string, string> UsernamesWithPasswordList;
 
 interface Room {
   string getName();

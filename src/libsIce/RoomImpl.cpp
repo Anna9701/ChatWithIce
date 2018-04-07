@@ -9,39 +9,39 @@ UserList RoomImpl::getUsers(const ::Ice::Current&) {
 }
 
 void RoomImpl::AddUser(const UserPrx& user, const string& password, const ::Ice::Current&) {
-    if (usersWithPasswords.find(user) != usersWithPasswords::end()) {
+    if (usernamesWithPasswords.find(user->getName()) != usernamesWithPasswords.end()) {
         throw new UserAlreadyExists();
     }
-    usersList.push_back(user);
-    usersWithPasswords.insert(user, password);
+    users.push_back(user);
+    usernamesWithPasswords.insert(usernamesWithPasswords.begin(),
+                                    pair<string, string>(user->getName(), password));
 }
 
 void RoomImpl::ChangePassword(const UserPrx& user, const string& oldPassword, const string& newPassword, const ::Ice::Current&) {
-    auto userSavedInRoom = usersWithPasswords.find(user);
-    if (userSavedInRoom == usersWithPasswords::end()) {
+    auto username = user->getName();
+    auto userSavedInRoom = usernamesWithPasswords.find(username);
+    if (userSavedInRoom == usernamesWithPasswords.end()) {
         throw new NoSuchUserExist();
     }
-    auto oldPasswordSavedInRoom = userSavedInRoom.second;
-    if (oldPasswordSavedInRoom != oldPassword) {
+    if (userSavedInRoom->second != oldPassword) {
         throw new WrongPassword();
     }
-    usersWithPasswords.at(user) = newPassword;
+    usernamesWithPasswords.at(username) = newPassword;
 }
 
 void RoomImpl::LeaveRoom(const UserPrx& user, const string& password, const ::Ice::Current&) {
-    auto userSavedInRoom = usersWithPasswords.find(user);
-    if (userSavedInRoom == usersWithPasswords::end()) {
+    auto userSavedInRoom = usernamesWithPasswords.find(user->getName());
+    if (userSavedInRoom == usernamesWithPasswords.end()) {
         throw new NoSuchUserExist();
     }
-    auto savedPassword = userSavedInRoom.second;
-    if (savedPassword != password) {
+    if (userSavedInRoom->second != password) {
         throw new WrongPassword();
     }
-    usersWithPasswords.erase(userSavedInRoom);
 
+    usernamesWithPasswords.erase(userSavedInRoom);
     for (auto it = users.begin(); it != users.end(); ) {
         if (*it == user) {
-            it = c.erase(it);
+            it = users.erase(it);
         } else {
             ++it;
         }
@@ -49,20 +49,20 @@ void RoomImpl::LeaveRoom(const UserPrx& user, const string& password, const ::Ic
 }
 
 void RoomImpl::Destroy(const ::Ice::Current&) {
-    usersWithPassword.clear();
+    usernamesWithPasswords.clear();
     users.clear();
 }
 
 void RoomImpl::SendMessage(const UserPrx& user, const string& message, const string& password, const ::Ice::Current&) {
-    auto userSavedInRoom = usersWithPasswords.find(user);
-    if (userSavedInRoom == usersWithPasswords::end()) {
+    auto userSavedInRoom = usernamesWithPasswords.find(user->getName());
+    if (userSavedInRoom == usernamesWithPasswords.end()) {
         throw new NoSuchUserExist();
     }
-    auto savedPassword = userSavedInRoom.second;
-    if (savedPassword != password) {
+
+    if (userSavedInRoom->second != password) {
         throw new WrongPassword();
     }
     for (auto& userInRoom : users) {
-        userInRoom->SendMessage(this, user, message)
+     //   userInRoom->SendMessage(this, user, message);
     }
 }

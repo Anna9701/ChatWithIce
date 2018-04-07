@@ -20,7 +20,7 @@
         private:
             string roomName;
             UserList users;
-            map<UserPrx&, string> usersWithPasswords;
+            UsernamesWithPasswordList usernamesWithPasswords; //to change
     };
 
 #endif
