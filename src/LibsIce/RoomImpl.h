@@ -34,8 +34,6 @@
                 string roomName;
                 UserList users;
                 UsernamesWithPasswordList usernamesWithPasswords; 
-                RoomPrx roomPrx;
-                ServerPrx server; 
         };
     }
 
