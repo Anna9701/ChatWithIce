@@ -35,21 +35,25 @@ namespace ClientApp {
     }
 
     Client::~Client() {
+        for (auto &room : userRooms) {
+            room->LeaveRoom(user, password);
+        }
         if (iceCommunicator)
             iceCommunicator->destroy();
     }
 
     void Client::createRoom() const {
-        clearConsole();
+        scrollConsole();
         string roomName;
         cout << "Enter name for new room " << endl;
         cin >> roomName;
+        cin.ignore(1000, '\n');
         server->CreateRoom(roomName);
-        clearConsole();
+        scrollConsole();
     }
 
     void Client::printListAllRooms() const {
-        clearConsole();
+        scrollConsole();
         auto rooms = server->getRooms();
         cout << "Available rooms are: " << endl;
         for (auto room : rooms) {
@@ -69,13 +73,13 @@ namespace ClientApp {
         } catch (UserAlreadyExists& ex) {
             cerr << ex << endl;
         }
-        clearConsole();
+        scrollConsole();
     }
 
     void Client::printUsersInRoom() const {
         try {
             auto users = getUsersInRoom();
-            clearConsole();
+            scrollConsole();
             cout << "Users available in room " << endl;
             for (auto& user : users) {
                 cout << user->getName() << endl;
@@ -97,15 +101,16 @@ namespace ClientApp {
     }
 
     string Client::getNameOfTheRoom() const {
-        clearConsole();
+        scrollConsole();
         string roomName;
         cout << "Enter the name of the room:" << endl;
         cin >> roomName;
+        cin.ignore(1000, '\n');
         return roomName;
     }
 
     void Client::leaveRoom() {
-        clearConsole();
+        scrollConsole();
         string roomName = getNameOfTheRoom();
         for (auto roomsIterator =  userRooms.begin(); roomsIterator != userRooms.end(); ++roomsIterator) {
             if ((*roomsIterator)->getName() == roomName) {
@@ -124,14 +129,14 @@ namespace ClientApp {
         cerr << "You were not joined to room " << roomName << endl;
     }
 
-    void Client::clearConsole() const {
-        for (unsigned int i = 0; i < 100; ++i) {
+    void Client::scrollConsole() const {
+        for (unsigned int i = 0; i < 2; ++i) {
             cout << endl;
         }
     }
 
     void Client::changePassword() {
-        clearConsole();
+        scrollConsole();
         string newPassword;
         cout << "Enter new password: ";
         cin >> newPassword;
@@ -158,15 +163,39 @@ namespace ClientApp {
         }
         cout << "Enter the name of the user you want to write to" << endl;
         cin >> targetUsername;
+        cin.ignore(1000, '\n');
         for(auto& targetUser : usersAvailable) {
             if (targetUser->getName() == targetUsername) {
                 string message;
                 cout << "Enter the content of message you want to send to" << endl;
-                cin >> message;
+                getline(cin, message);
                 targetUser->SendPrivateMessage(user, message);
                 return;
             }
         }
         cerr << "No such user found. Sorry." << endl;
+    }
+
+    void Client::sendMessageToRoom() const {
+        scrollConsole();
+        string targetRoom = getNameOfTheRoom();
+        for (auto roomsIterator =  userRooms.begin(); roomsIterator != userRooms.end(); ++roomsIterator) {
+            if ((*roomsIterator)->getName() == targetRoom) {
+                try {
+                    string content;
+                    cout << "Please, enter content of message you want to send to" << endl;
+                    getline(cin, content);
+                    (*roomsIterator)->SendMessage(user, content, password);
+                    return;
+                } catch (NoSuchUserExist& ex) {
+                    cerr << "Ooopss.. something is wrong. You couldn't be found on user list for that room. Sorry!" << endl;
+                    return;
+                } catch (WrongPassword& ex) {
+                    cerr << "Provided password was incorrect. Can't send message to that room" << endl;
+                    return;
+                }
+            }
+        }
+        cerr << "You are not joined to room " << targetRoom << endl;
     }
 }

@@ -3,6 +3,8 @@
 
     #include "chat.h"
     #include <Ice/Ice.h>
+    #include "PortsUtil.h"
+    #include "RoomFactoryImpl.h"
 
     using namespace std;
     using namespace Chat;
@@ -28,10 +30,13 @@
                 virtual void LeaveRoom(const UserPrx&, 
                                     const string&, 
                                     const ::Ice::Current& = ::Ice::Current()) override;
+                virtual void setRoomProxy(const RoomPrx&, const ::Ice::Current& = ::Ice::Current()) override; 
             private:
                 string roomName;
                 UserList users;
                 UsernamesWithPasswordList usernamesWithPasswords; 
+                RoomPrx roomPrx;
+                ServerPrx server; 
         };
     }
 

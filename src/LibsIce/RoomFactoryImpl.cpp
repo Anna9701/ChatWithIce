@@ -17,7 +17,7 @@ namespace LibsIce {
         Ice::ObjectPrx base = ic->stringToProxy("SimpleRoom" + name 
                                             + ":default -p " + to_string(port));
         RoomPrx room = RoomPrx::checkedCast(base);
-
+        room->setRoomProxy(room);
         roomList.push_back(room);
         cout << "RoomFactory::Room created" << endl;
         return room;

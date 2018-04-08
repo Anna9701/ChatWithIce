@@ -33,6 +33,9 @@ int main(int argc, char* argv[]) {
             case 4:
                 client.leaveRoom();
                 break;
+            case 5:
+                client.sendMessageToRoom();
+                break;
             case 6:
                 client.printUsersInRoom();
                 break;

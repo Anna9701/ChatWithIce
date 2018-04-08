@@ -4,16 +4,18 @@ namespace LibsIce {
         return name;
     }
 
-    void UserImpl::SendMessage(const RoomPrx& room, 
+    void UserImpl::SendMessage(const string& room, 
                             const UserPrx& who, 
                             const string& message, 
                             const ::Ice::Current&) {
-        cout << room->getName() << " : " << who->getName() << " wrote: " << message << endl;
+        auto currentTime = chrono::system_clock::to_time_t(chrono::system_clock::now());
+        cout << ctime(&currentTime) << room << "->" << who->getName() << ":" << message << endl;
     }
 
     void UserImpl::SendPrivateMessage(const UserPrx& who, 
                                     const string& message, 
                                     const ::Ice::Current&) {
-        cout << who->getName() << " wrote: " << message << endl;
+        auto currentTime = chrono::system_clock::to_time_t(chrono::system_clock::now());
+        cout << ctime(&currentTime) << who->getName() << ": " << message << endl;
     }
 }

@@ -11,7 +11,7 @@ exception RoomAlreadyExist {};
 exception NoResourcesAvailable {};
 
 interface User {
-  void SendMessage(Room* where, User* who, string message);
+  void SendMessage(string where, User* who, string message);
   void SendPrivateMessage(User* who, string message);
   string getName();
 };
@@ -23,8 +23,6 @@ interface Server {
   Room* CreateRoom(string name) throws RoomAlreadyExist, NoResourcesAvailable;
   RoomList getRooms();
   Room* FindRoom(string name) throws NoSuchRoomExist;
-  //void RegisterUser(string name, string password) throws UserAlreadyExists;
-  //void ChangePassword(User* user, string oldpassword, string newpassword);
   void RegisterRoomFactory(RoomFactory* factory);
   void UnregisterRoomFactory(RoomFactory* factory);
 };
@@ -40,6 +38,7 @@ interface Room {
   void SendMessage(User* who, string message, string passwd);
   void Destroy();
   void LeaveRoom(User* who, string passwd);
+  void setRoomProxy(Room* proxy);
 };
 
 interface RoomFactory

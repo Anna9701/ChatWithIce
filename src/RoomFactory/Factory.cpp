@@ -12,7 +12,7 @@ namespace RoomFactory {
                                                                     + to_string(port));
         roomFactory = RoomFactoryPrx::checkedCast(base);
         server->RegisterRoomFactory(roomFactory);
-        iceCommunicator->waitForShutdown();
+        adapter->waitForDeactivate();
     }
 
     void Factory::unregisterRoomFactory() const {

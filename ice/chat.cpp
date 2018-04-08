@@ -73,6 +73,8 @@ const ::std::string __Chat__Room__Destroy_name = "Destroy";
 
 const ::std::string __Chat__Room__LeaveRoom_name = "LeaveRoom";
 
+const ::std::string __Chat__Room__setRoomProxy_name = "setRoomProxy";
+
 const ::std::string __Chat__RoomFactory__createRoom_name = "createRoom";
 
 const ::std::string __Chat__RoomFactory__getRooms_name = "getRooms";
@@ -359,7 +361,7 @@ void
 }
 
 void
-IceProxy::Chat::User::SendMessage(const ::Chat::RoomPrx& __p_where, const ::Chat::UserPrx& __p_who, const ::std::string& __p_message, const ::Ice::Context* __ctx)
+IceProxy::Chat::User::SendMessage(const ::std::string& __p_where, const ::Chat::UserPrx& __p_who, const ::std::string& __p_message, const ::Ice::Context* __ctx)
 {
     ::IceInternal::Outgoing __og(this, __Chat__User__SendMessage_name, ::Ice::Normal, __ctx);
     try
@@ -378,7 +380,7 @@ IceProxy::Chat::User::SendMessage(const ::Chat::RoomPrx& __p_where, const ::Chat
 }
 
 ::Ice::AsyncResultPtr
-IceProxy::Chat::User::begin_SendMessage(const ::Chat::RoomPrx& __p_where, const ::Chat::UserPrx& __p_who, const ::std::string& __p_message, const ::Ice::Context* __ctx, const ::IceInternal::CallbackBasePtr& __del, const ::Ice::LocalObjectPtr& __cookie)
+IceProxy::Chat::User::begin_SendMessage(const ::std::string& __p_where, const ::Chat::UserPrx& __p_who, const ::std::string& __p_message, const ::Ice::Context* __ctx, const ::IceInternal::CallbackBasePtr& __del, const ::Ice::LocalObjectPtr& __cookie)
 {
     ::IceInternal::OutgoingAsyncPtr __result = new ::IceInternal::OutgoingAsync(this, __Chat__User__SendMessage_name, __del, __cookie);
     try
@@ -1653,6 +1655,48 @@ IceProxy::Chat::Room::end_LeaveRoom(const ::Ice::AsyncResultPtr& __result)
     __end(__result, __Chat__Room__LeaveRoom_name);
 }
 
+void
+IceProxy::Chat::Room::setRoomProxy(const ::Chat::RoomPrx& __p_proxy, const ::Ice::Context* __ctx)
+{
+    ::IceInternal::Outgoing __og(this, __Chat__Room__setRoomProxy_name, ::Ice::Normal, __ctx);
+    try
+    {
+        ::IceInternal::BasicStream* __os = __og.startWriteParams(::Ice::DefaultFormat);
+        __os->write(__p_proxy);
+        __og.endWriteParams();
+    }
+    catch(const ::Ice::LocalException& __ex)
+    {
+        __og.abort(__ex);
+    }
+    __invoke(__og);
+}
+
+::Ice::AsyncResultPtr
+IceProxy::Chat::Room::begin_setRoomProxy(const ::Chat::RoomPrx& __p_proxy, const ::Ice::Context* __ctx, const ::IceInternal::CallbackBasePtr& __del, const ::Ice::LocalObjectPtr& __cookie)
+{
+    ::IceInternal::OutgoingAsyncPtr __result = new ::IceInternal::OutgoingAsync(this, __Chat__Room__setRoomProxy_name, __del, __cookie);
+    try
+    {
+        __result->prepare(__Chat__Room__setRoomProxy_name, ::Ice::Normal, __ctx);
+        ::IceInternal::BasicStream* __os = __result->startWriteParams(::Ice::DefaultFormat);
+        __os->write(__p_proxy);
+        __result->endWriteParams();
+        __result->invoke();
+    }
+    catch(const ::Ice::Exception& __ex)
+    {
+        __result->abort(__ex);
+    }
+    return __result;
+}
+
+void
+IceProxy::Chat::Room::end_setRoomProxy(const ::Ice::AsyncResultPtr& __result)
+{
+    __end(__result, __Chat__Room__setRoomProxy_name);
+}
+
 const ::std::string&
 IceProxy::Chat::Room::ice_staticId()
 {
@@ -1967,7 +2011,7 @@ Chat::User::___SendMessage(::IceInternal::Incoming& __inS, const ::Ice::Current&
 {
     __checkMode(::Ice::Normal, __current.mode);
     ::IceInternal::BasicStream* __is = __inS.startReadParams();
-    ::Chat::RoomPrx __p_where;
+    ::std::string __p_where;
     ::Chat::UserPrx __p_who;
     ::std::string __p_message;
     __is->read(__p_where);
@@ -2472,6 +2516,19 @@ Chat::Room::___LeaveRoom(::IceInternal::Incoming& __inS, const ::Ice::Current& _
     return ::Ice::DispatchOK;
 }
 
+::Ice::DispatchStatus
+Chat::Room::___setRoomProxy(::IceInternal::Incoming& __inS, const ::Ice::Current& __current)
+{
+    __checkMode(::Ice::Normal, __current.mode);
+    ::IceInternal::BasicStream* __is = __inS.startReadParams();
+    ::Chat::RoomPrx __p_proxy;
+    __is->read(__p_proxy);
+    __inS.endReadParams();
+    setRoomProxy(__p_proxy, __current);
+    __inS.__writeEmptyParams();
+    return ::Ice::DispatchOK;
+}
+
 namespace
 {
 const ::std::string __Chat__Room_all[] =
@@ -2486,7 +2543,8 @@ const ::std::string __Chat__Room_all[] =
     "ice_id",
     "ice_ids",
     "ice_isA",
-    "ice_ping"
+    "ice_ping",
+    "setRoomProxy"
 };
 
 }
@@ -2494,7 +2552,7 @@ const ::std::string __Chat__Room_all[] =
 ::Ice::DispatchStatus
 Chat::Room::__dispatch(::IceInternal::Incoming& in, const ::Ice::Current& current)
 {
-    ::std::pair< const ::std::string*, const ::std::string*> r = ::std::equal_range(__Chat__Room_all, __Chat__Room_all + 11, current.operation);
+    ::std::pair< const ::std::string*, const ::std::string*> r = ::std::equal_range(__Chat__Room_all, __Chat__Room_all + 12, current.operation);
     if(r.first == r.second)
     {
         throw ::Ice::OperationNotExistException(__FILE__, __LINE__, current.id, current.facet, current.operation);
@@ -2545,6 +2603,10 @@ Chat::Room::__dispatch(::IceInternal::Incoming& in, const ::Ice::Current& curren
         case 10:
         {
             return ___ice_ping(in, current);
+        }
+        case 11:
+        {
+            return ___setRoomProxy(in, current);
         }
     }
 

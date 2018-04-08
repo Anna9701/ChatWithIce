@@ -69,8 +69,13 @@ namespace LibsIce {
         if (userSavedInRoom->second != password) {
             throw new WrongPassword();
         }
+
         for (auto& userInRoom : users) {
-        //   userInRoom->SendMessage(this, user, message);
+            userInRoom->SendMessage(roomName, user, message);
         }
+    }
+
+    void RoomImpl::setRoomProxy(const RoomPrx& proxy, const ::Ice::Current&) {
+        roomPrx = proxy;
     }
 }
