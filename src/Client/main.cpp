@@ -9,7 +9,7 @@ int main(int argc, char* argv[]) {
     int status = 0;
     Menu menu;
     string username, password;
-
+    
     cout << "Enter your username: " << endl;
     cin >> username;
     cout << "Enter your password: " << endl;
@@ -36,7 +36,10 @@ int main(int argc, char* argv[]) {
             case 6:
                 client.printUsersInRoom();
                 break;
-            case 8:
+            case 7:
+                client.sendPrivateMessageToUser();
+                break;
+            case 8: //TODO test it properly!!!!!!!!!!!!!!!!!!!!!!
                 client.changePassword();
                 break;
             case 0:

@@ -22,6 +22,7 @@
                 void printUsersInRoom() const;
                 void leaveRoom();
                 void changePassword();
+                void sendPrivateMessageToUser() const;
                 ~Client();
             private:
                 string username;
@@ -36,6 +37,7 @@
                 void createUser();
                 string getNameOfTheRoom() const;
                 void clearConsole() const;
+                UserList getUsersInRoom() const;
         }; 
     }
 

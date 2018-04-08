@@ -73,17 +73,26 @@ namespace ClientApp {
     }
 
     void Client::printUsersInRoom() const {
-        clearConsole();
-        string roomName = getNameOfTheRoom();
-        cout << "Users available in room " << roomName << endl;
         try {
-            RoomPrx room = server->FindRoom(roomName);
-            auto users = room->getUsers();
+            auto users = getUsersInRoom();
+            clearConsole();
+            cout << "Users available in room " << endl;
             for (auto& user : users) {
                 cout << user->getName() << endl;
             }
         } catch (NoSuchRoomExist& ex) {
             cerr << ex << endl;
+        }
+    }
+
+    UserList Client::getUsersInRoom() const {
+        string roomName = getNameOfTheRoom();
+        try {
+            RoomPrx room = server->FindRoom(roomName);
+            UserList users = room->getUsers();
+            return users;
+        } catch (NoSuchRoomExist& ex) {
+            throw ex;
         }
     }
 
@@ -136,5 +145,28 @@ namespace ClientApp {
             }
         }
         password = newPassword;
+    }
+
+    void Client::sendPrivateMessageToUser() const {
+        string targetUsername;
+        UserList usersAvailable;
+        try {
+            usersAvailable = getUsersInRoom();
+        } catch (NoSuchRoomExist& ex) {
+            cerr << ex << endl;
+            return;
+        }
+        cout << "Enter the name of the user you want to write to" << endl;
+        cin >> targetUsername;
+        for(auto& targetUser : usersAvailable) {
+            if (targetUser->getName() == targetUsername) {
+                string message;
+                cout << "Enter the content of message you want to send to" << endl;
+                cin >> message;
+                targetUser->SendPrivateMessage(user, message);
+                return;
+            }
+        }
+        cerr << "No such user found. Sorry." << endl;
     }
 }
