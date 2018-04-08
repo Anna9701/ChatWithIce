@@ -315,9 +315,6 @@ typedef ::IceUtil::Handle< Callback_Room_Destroy_Base> Callback_Room_DestroyPtr;
 class Callback_Room_LeaveRoom_Base : virtual public ::IceInternal::CallbackBase { };
 typedef ::IceUtil::Handle< Callback_Room_LeaveRoom_Base> Callback_Room_LeaveRoomPtr;
 
-class Callback_Room_setRoomProxy_Base : virtual public ::IceInternal::CallbackBase { };
-typedef ::IceUtil::Handle< Callback_Room_setRoomProxy_Base> Callback_Room_setRoomProxyPtr;
-
 class Callback_RoomFactory_createRoom_Base : virtual public ::IceInternal::CallbackBase { };
 typedef ::IceUtil::Handle< Callback_RoomFactory_createRoom_Base> Callback_RoomFactory_createRoomPtr;
 
@@ -1663,76 +1660,6 @@ private:
     ::Ice::AsyncResultPtr begin_LeaveRoom(const ::Chat::UserPrx&, const ::std::string&, const ::Ice::Context*, const ::IceInternal::CallbackBasePtr&, const ::Ice::LocalObjectPtr& __cookie = 0);
     
 public:
-
-    void setRoomProxy(const ::Chat::RoomPrx& __p_proxy)
-    {
-        setRoomProxy(__p_proxy, 0);
-    }
-    void setRoomProxy(const ::Chat::RoomPrx& __p_proxy, const ::Ice::Context& __ctx)
-    {
-        setRoomProxy(__p_proxy, &__ctx);
-    }
-#ifdef ICE_CPP11
-    ::Ice::AsyncResultPtr
-    begin_setRoomProxy(const ::Chat::RoomPrx& __p_proxy, const ::IceInternal::Function<void ()>& __response, const ::IceInternal::Function<void (const ::Ice::Exception&)>& __exception = ::IceInternal::Function<void (const ::Ice::Exception&)>(), const ::IceInternal::Function<void (bool)>& __sent = ::IceInternal::Function<void (bool)>())
-    {
-        return begin_setRoomProxy(__p_proxy, 0, new ::IceInternal::Cpp11FnOnewayCallbackNC(__response, __exception, __sent));
-    }
-    ::Ice::AsyncResultPtr
-    begin_setRoomProxy(const ::Chat::RoomPrx& __p_proxy, const ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>& __completed, const ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>& __sent = ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>())
-    {
-        return begin_setRoomProxy(__p_proxy, 0, ::Ice::newCallback(__completed, __sent), 0);
-    }
-    ::Ice::AsyncResultPtr
-    begin_setRoomProxy(const ::Chat::RoomPrx& __p_proxy, const ::Ice::Context& __ctx, const ::IceInternal::Function<void ()>& __response, const ::IceInternal::Function<void (const ::Ice::Exception&)>& __exception = ::IceInternal::Function<void (const ::Ice::Exception&)>(), const ::IceInternal::Function<void (bool)>& __sent = ::IceInternal::Function<void (bool)>())
-    {
-        return begin_setRoomProxy(__p_proxy, &__ctx, new ::IceInternal::Cpp11FnOnewayCallbackNC(__response, __exception, __sent), 0);
-    }
-    ::Ice::AsyncResultPtr
-    begin_setRoomProxy(const ::Chat::RoomPrx& __p_proxy, const ::Ice::Context& __ctx, const ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>& __completed, const ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>& __sent = ::IceInternal::Function<void (const ::Ice::AsyncResultPtr&)>())
-    {
-        return begin_setRoomProxy(__p_proxy, &__ctx, ::Ice::newCallback(__completed, __sent));
-    }
-#endif
-
-    ::Ice::AsyncResultPtr begin_setRoomProxy(const ::Chat::RoomPrx& __p_proxy)
-    {
-        return begin_setRoomProxy(__p_proxy, 0, ::IceInternal::__dummyCallback, 0);
-    }
-
-    ::Ice::AsyncResultPtr begin_setRoomProxy(const ::Chat::RoomPrx& __p_proxy, const ::Ice::Context& __ctx)
-    {
-        return begin_setRoomProxy(__p_proxy, &__ctx, ::IceInternal::__dummyCallback, 0);
-    }
-
-    ::Ice::AsyncResultPtr begin_setRoomProxy(const ::Chat::RoomPrx& __p_proxy, const ::Ice::CallbackPtr& __del, const ::Ice::LocalObjectPtr& __cookie = 0)
-    {
-        return begin_setRoomProxy(__p_proxy, 0, __del, __cookie);
-    }
-
-    ::Ice::AsyncResultPtr begin_setRoomProxy(const ::Chat::RoomPrx& __p_proxy, const ::Ice::Context& __ctx, const ::Ice::CallbackPtr& __del, const ::Ice::LocalObjectPtr& __cookie = 0)
-    {
-        return begin_setRoomProxy(__p_proxy, &__ctx, __del, __cookie);
-    }
-
-    ::Ice::AsyncResultPtr begin_setRoomProxy(const ::Chat::RoomPrx& __p_proxy, const ::Chat::Callback_Room_setRoomProxyPtr& __del, const ::Ice::LocalObjectPtr& __cookie = 0)
-    {
-        return begin_setRoomProxy(__p_proxy, 0, __del, __cookie);
-    }
-
-    ::Ice::AsyncResultPtr begin_setRoomProxy(const ::Chat::RoomPrx& __p_proxy, const ::Ice::Context& __ctx, const ::Chat::Callback_Room_setRoomProxyPtr& __del, const ::Ice::LocalObjectPtr& __cookie = 0)
-    {
-        return begin_setRoomProxy(__p_proxy, &__ctx, __del, __cookie);
-    }
-
-    void end_setRoomProxy(const ::Ice::AsyncResultPtr&);
-    
-private:
-
-    void setRoomProxy(const ::Chat::RoomPrx&, const ::Ice::Context*);
-    ::Ice::AsyncResultPtr begin_setRoomProxy(const ::Chat::RoomPrx&, const ::Ice::Context*, const ::IceInternal::CallbackBasePtr&, const ::Ice::LocalObjectPtr& __cookie = 0);
-    
-public:
     
     ::IceInternal::ProxyHandle<Room> ice_context(const ::Ice::Context& __context) const
     {
@@ -2237,9 +2164,6 @@ public:
 
     virtual void LeaveRoom(const ::Chat::UserPrx&, const ::std::string&, const ::Ice::Current& = ::Ice::Current()) = 0;
     ::Ice::DispatchStatus ___LeaveRoom(::IceInternal::Incoming&, const ::Ice::Current&);
-
-    virtual void setRoomProxy(const ::Chat::RoomPrx&, const ::Ice::Current& = ::Ice::Current()) = 0;
-    ::Ice::DispatchStatus ___setRoomProxy(::IceInternal::Incoming&, const ::Ice::Current&);
 
     virtual ::Ice::DispatchStatus __dispatch(::IceInternal::Incoming&, const ::Ice::Current&);
 
@@ -3750,88 +3674,6 @@ template<class T, typename CT> Callback_Room_LeaveRoomPtr
 newCallback_Room_LeaveRoom(T* instance, void (T::*excb)(const ::Ice::Exception&, const CT&), void (T::*sentcb)(bool, const CT&) = 0)
 {
     return new Callback_Room_LeaveRoom<T, CT>(instance, 0, excb, sentcb);
-}
-
-template<class T>
-class CallbackNC_Room_setRoomProxy : public Callback_Room_setRoomProxy_Base, public ::IceInternal::OnewayCallbackNC<T>
-{
-public:
-
-    typedef IceUtil::Handle<T> TPtr;
-
-    typedef void (T::*Exception)(const ::Ice::Exception&);
-    typedef void (T::*Sent)(bool);
-    typedef void (T::*Response)();
-
-    CallbackNC_Room_setRoomProxy(const TPtr& obj, Response cb, Exception excb, Sent sentcb)
-        : ::IceInternal::OnewayCallbackNC<T>(obj, cb, excb, sentcb)
-    {
-    }
-};
-
-template<class T> Callback_Room_setRoomProxyPtr
-newCallback_Room_setRoomProxy(const IceUtil::Handle<T>& instance, void (T::*cb)(), void (T::*excb)(const ::Ice::Exception&), void (T::*sentcb)(bool) = 0)
-{
-    return new CallbackNC_Room_setRoomProxy<T>(instance, cb, excb, sentcb);
-}
-
-template<class T> Callback_Room_setRoomProxyPtr
-newCallback_Room_setRoomProxy(const IceUtil::Handle<T>& instance, void (T::*excb)(const ::Ice::Exception&), void (T::*sentcb)(bool) = 0)
-{
-    return new CallbackNC_Room_setRoomProxy<T>(instance, 0, excb, sentcb);
-}
-
-template<class T> Callback_Room_setRoomProxyPtr
-newCallback_Room_setRoomProxy(T* instance, void (T::*cb)(), void (T::*excb)(const ::Ice::Exception&), void (T::*sentcb)(bool) = 0)
-{
-    return new CallbackNC_Room_setRoomProxy<T>(instance, cb, excb, sentcb);
-}
-
-template<class T> Callback_Room_setRoomProxyPtr
-newCallback_Room_setRoomProxy(T* instance, void (T::*excb)(const ::Ice::Exception&), void (T::*sentcb)(bool) = 0)
-{
-    return new CallbackNC_Room_setRoomProxy<T>(instance, 0, excb, sentcb);
-}
-
-template<class T, typename CT>
-class Callback_Room_setRoomProxy : public Callback_Room_setRoomProxy_Base, public ::IceInternal::OnewayCallback<T, CT>
-{
-public:
-
-    typedef IceUtil::Handle<T> TPtr;
-
-    typedef void (T::*Exception)(const ::Ice::Exception& , const CT&);
-    typedef void (T::*Sent)(bool , const CT&);
-    typedef void (T::*Response)(const CT&);
-
-    Callback_Room_setRoomProxy(const TPtr& obj, Response cb, Exception excb, Sent sentcb)
-        : ::IceInternal::OnewayCallback<T, CT>(obj, cb, excb, sentcb)
-    {
-    }
-};
-
-template<class T, typename CT> Callback_Room_setRoomProxyPtr
-newCallback_Room_setRoomProxy(const IceUtil::Handle<T>& instance, void (T::*cb)(const CT&), void (T::*excb)(const ::Ice::Exception&, const CT&), void (T::*sentcb)(bool, const CT&) = 0)
-{
-    return new Callback_Room_setRoomProxy<T, CT>(instance, cb, excb, sentcb);
-}
-
-template<class T, typename CT> Callback_Room_setRoomProxyPtr
-newCallback_Room_setRoomProxy(const IceUtil::Handle<T>& instance, void (T::*excb)(const ::Ice::Exception&, const CT&), void (T::*sentcb)(bool, const CT&) = 0)
-{
-    return new Callback_Room_setRoomProxy<T, CT>(instance, 0, excb, sentcb);
-}
-
-template<class T, typename CT> Callback_Room_setRoomProxyPtr
-newCallback_Room_setRoomProxy(T* instance, void (T::*cb)(const CT&), void (T::*excb)(const ::Ice::Exception&, const CT&), void (T::*sentcb)(bool, const CT&) = 0)
-{
-    return new Callback_Room_setRoomProxy<T, CT>(instance, cb, excb, sentcb);
-}
-
-template<class T, typename CT> Callback_Room_setRoomProxyPtr
-newCallback_Room_setRoomProxy(T* instance, void (T::*excb)(const ::Ice::Exception&, const CT&), void (T::*sentcb)(bool, const CT&) = 0)
-{
-    return new Callback_Room_setRoomProxy<T, CT>(instance, 0, excb, sentcb);
 }
 
 template<class T>

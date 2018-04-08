@@ -74,8 +74,4 @@ namespace LibsIce {
             userInRoom->SendMessage(roomName, user, message);
         }
     }
-
-    void RoomImpl::setRoomProxy(const RoomPrx& proxy, const ::Ice::Current&) {
-        roomPrx = proxy;
-    }
 }

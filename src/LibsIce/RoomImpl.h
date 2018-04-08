@@ -30,7 +30,6 @@
                 virtual void LeaveRoom(const UserPrx&, 
                                     const string&, 
                                     const ::Ice::Current& = ::Ice::Current()) override;
-                virtual void setRoomProxy(const RoomPrx&, const ::Ice::Current& = ::Ice::Current()) override; 
             private:
                 string roomName;
                 UserList users;

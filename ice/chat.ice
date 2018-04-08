@@ -38,7 +38,6 @@ interface Room {
   void SendMessage(User* who, string message, string passwd);
   void Destroy();
   void LeaveRoom(User* who, string passwd);
-  void setRoomProxy(Room* proxy);
 };
 
 interface RoomFactory
