@@ -8,8 +8,7 @@ namespace ClientApp {
     void Client::createUser() {
         UserPtr object = new UserImpl(username);
         int port = portsUtil.getRandomPort();
-        adapter = iceCommunicator->createObjectAdapterWithEndpoints("User" + username, 
-                                                        "default -p " + to_string(port));
+        adapter = iceCommunicator->createObjectAdapterWithEndpoints("User" + username, "default -p " + to_string(port));
         user = UserPrx::uncheckedCast(adapter->addWithUUID(object));
         adapter->activate();
     }
@@ -18,8 +17,7 @@ namespace ClientApp {
         try {
             iceCommunicator = Ice::initialize();
             int serverPort = portsUtil.getServerPort();
-            Ice::ObjectPrx base = iceCommunicator->stringToProxy("Server:default -p " 
-                                                            + to_string(serverPort));
+            Ice::ObjectPrx base = iceCommunicator->stringToProxy("Server:default -p " + to_string(serverPort));
             server = ServerPrx::checkedCast(base);
             if (!server)
                 throw "Invalid proxy";
@@ -45,7 +43,15 @@ namespace ClientApp {
         cout << "Enter name for new room " << endl;
         cin >> roomName;
         cin.ignore(1000, '\n');
-        server->CreateRoom(roomName);
+        try {
+            server->CreateRoom(roomName);
+        } catch (const Chat::RoomAlreadyExist& ex) {
+            cerr << "Cannot create. There is a room with that name already." << endl;
+        } catch (const Chat::NoResourcesAvailable& ex) {
+            cerr << "Cannot create. There is no resources available. Try again later." << endl;
+        } catch (const Ice::UnknownException& ex) {
+            cerr << "Cannot create" << endl;
+        }
         scrollConsole();
     }
 
@@ -65,10 +71,10 @@ namespace ClientApp {
             RoomPrx room = server->FindRoom(name);
             room->AddUser(user, password);
             userRooms.push_back(room);
-        } catch (const Chat::NoSuchRoomExist& ex) {
-            cerr << ex << endl;
-        } catch (const Chat::UserAlreadyExists& ex) {
-            cerr << ex << endl;
+        } catch (const NoSuchRoomExist& ex) {
+            cerr << "There is no such room" << endl;
+        } catch (const UserAlreadyExists& ex) {
+            cerr << "Such userr already exist" << endl;
         } catch (const Ice::UnknownException& ex) {
             cerr << "Operation couldn't be realized." << endl;
         }
@@ -94,6 +100,8 @@ namespace ClientApp {
             RoomPrx room = server->FindRoom(roomName);
             UserList users = room->getUsers();
             return users;
+        } catch (const NoSuchRoomExist& ex) {
+            cerr << "There is no such room" << endl;
         } catch (Ice::UnknownException& ex) {
             cerr << ex << endl;
         }
@@ -123,6 +131,8 @@ namespace ClientApp {
                     cerr << "Ooopss.. something is wrong. You couldn't be found on user list for that room. Sorry!" << endl;
                 } catch (WrongPassword& ex) {
                     cerr << "Provided password was incorrect. Can't remove user from room" << endl;
+                } catch (Ice::UnknownException& ex) {
+                    cerr << ex << endl;
                 }
             }
         }

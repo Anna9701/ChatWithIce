@@ -11,7 +11,7 @@ namespace LibsIce {
 
     void RoomImpl::AddUser(const UserPrx& user, const string& password, const ::Ice::Current&) {
         if (usernamesWithPasswords.find(user->getName()) != usernamesWithPasswords.end()) {
-            throw new UserAlreadyExists();
+            throw UserAlreadyExists();
         }
         users.push_back(user);
         usernamesWithPasswords.insert(usernamesWithPasswords.begin(),
@@ -19,28 +19,27 @@ namespace LibsIce {
     }
 
     void RoomImpl::ChangePassword(const UserPrx& user, 
-                                const string& oldPassword, 
-                                const string& newPassword, 
-                                const ::Ice::Current&) {
+                                  const string& oldPassword, 
+                                  const string& newPassword, 
+                                  const ::Ice::Current&) {
         auto username = user->getName();
         auto userSavedInRoom = usernamesWithPasswords.find(username);
         if (userSavedInRoom == usernamesWithPasswords.end()) {
-            throw new NoSuchUserExist();
+            throw NoSuchUserExist();
         }
         if (userSavedInRoom->second != oldPassword) {
-            throw new WrongPassword();
+            throw WrongPassword();
         }
         usernamesWithPasswords.at(username) = newPassword;
     }
 
     void RoomImpl::LeaveRoom(const UserPrx& user, const string& password, const ::Ice::Current&) {
-        
         auto userSavedInRoom = usernamesWithPasswords.find(user->getName());
         if (userSavedInRoom == usernamesWithPasswords.end()) {
-            throw new NoSuchUserExist();
+            throw NoSuchUserExist();
         }
         if (userSavedInRoom->second != password) {
-            throw new WrongPassword();
+            throw WrongPassword();
         }
         usernamesWithPasswords.erase(userSavedInRoom);
         for (auto usersIterator = users.begin(); usersIterator != users.end(); ++usersIterator) {
@@ -58,16 +57,16 @@ namespace LibsIce {
     }
 
     void RoomImpl::SendMessage(const UserPrx& user, 
-                            const string& message, 
-                            const string& password, 
-                            const ::Ice::Current&) {
+                               const string& message, 
+                               const string& password, 
+                               const ::Ice::Current&) {
         auto userSavedInRoom = usernamesWithPasswords.find(user->getName());
         if (userSavedInRoom == usernamesWithPasswords.end()) {
-            throw new NoSuchUserExist();
+            throw NoSuchUserExist();
         }
 
         if (userSavedInRoom->second != password) {
-            throw new WrongPassword();
+            throw WrongPassword();
         }
 
         for (auto& userInRoom : users) {

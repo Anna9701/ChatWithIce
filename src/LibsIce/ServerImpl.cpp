@@ -4,7 +4,7 @@ namespace LibsIce {
     RoomPrx ServerImpl::CreateRoom(const string& name, const ::Ice::Current&) {
         for (auto &room : roomList) {
             if (room->getName() == name) {
-                throw new RoomAlreadyExist();
+                throw RoomAlreadyExist();
             }
         }
         //TODO random select room factory
@@ -29,7 +29,7 @@ namespace LibsIce {
                 return room;
             }
         }
-        throw new NoSuchRoomExist();   
+        throw NoSuchRoomExist();   
     }
 
     void ServerImpl::RegisterRoomFactory(const RoomFactoryPrx& roomFactory, const ::Ice::Current&) {

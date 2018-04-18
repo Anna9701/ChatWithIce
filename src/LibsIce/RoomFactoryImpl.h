@@ -10,11 +10,11 @@
     using namespace Chat;
 
     namespace LibsIce {
-        class RoomFactoryImpl : public RoomFactory {
+        class RoomFactoryImpl : public virtual RoomFactory {
             public:
                 RoomFactoryImpl();
                 virtual RoomPrx createRoom(const string&, 
-                                        const ::Ice::Current& = ::Ice::Current()) override;
+                                           const ::Ice::Current& = ::Ice::Current()) override;
                 virtual RoomList getRooms(const ::Ice::Current& = ::Ice::Current()) override;
                 ~RoomFactoryImpl();
             private:

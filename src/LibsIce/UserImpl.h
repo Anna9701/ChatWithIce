@@ -10,17 +10,17 @@
     using namespace std;
 
     namespace LibsIce {
-        class UserImpl : public User {
+        class UserImpl : public virtual User {
             public:
                 UserImpl(const string& n) : name(n){};
                 virtual string getName(const Ice::Current&) override;
                 virtual void SendMessage(const string&, 
-                                        const UserPrx&, 
-                                        const string&, 
-                                        const ::Ice::Current& = ::Ice::Current()) override;
+                                         const UserPrx&, 
+                                         const string&, 
+                                         const ::Ice::Current& = ::Ice::Current()) override;
                 virtual void SendPrivateMessage(const UserPrx&, 
-                                            const string&, 
-                                            const ::Ice::Current& = ::Ice::Current()) override;
+                                                const string&, 
+                                                const ::Ice::Current& = ::Ice::Current()) override;
             private:
                 string name;
         };

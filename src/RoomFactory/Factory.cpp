@@ -9,7 +9,7 @@ namespace RoomFactory {
         adapter->add(object, iceCommunicator->stringToIdentity("RoomFactory"));
         adapter->activate();
         server->RegisterRoomFactory(roomFactory);
-        adapter->waitForDeactivate();
+        iceCommunicator->waitForShutdown();
     }
 
     Factory::Factory() {
@@ -21,6 +21,12 @@ namespace RoomFactory {
             if (!server) {
                 throw "Invalid proxy";
             }
+        } catch (const RoomAlreadyExist &ex) {
+            cerr << ex << endl;
+        } catch (const NoSuchRoomExist& ex) {
+            cerr << ex << endl;
+        } catch (const UserAlreadyExists& ex) {
+            cerr << "Such userr already exist" << endl;
         } catch (const Ice::Exception& ex) {
             cerr << ex << endl;
         } catch (const char* msg) {

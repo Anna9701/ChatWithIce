@@ -11,20 +11,17 @@
     using namespace std;
 
     namespace LibsIce {
-        class ServerImpl : public Server {
+        class ServerImpl : public virtual Server {
             public:
                 virtual RoomPrx CreateRoom(const string&, 
-                                        const ::Ice::Current& = ::Ice::Current()) override;
+                                           const ::Ice::Current& = ::Ice::Current()) override;
                 virtual RoomList getRooms(const ::Ice::Current& = ::Ice::Current()) override;
                 virtual RoomPrx FindRoom(const string&, 
-                                        const ::Ice::Current& = ::Ice::Current()) override;
-            // virtual void RegisterUser(const string&, const string&, const ::Ice::Current& = ::Ice::Current()) override;
-            // virtual void ChangePassword(const UserPrx&, const string&, const string&, const ::Ice::Current& = ::Ice::Current()) override;
-            // virtual void getPassword(const string&, const ::Ice::Current& = ::Ice::Current()) override;
+                                         const ::Ice::Current& = ::Ice::Current()) override;
                 virtual void RegisterRoomFactory(const RoomFactoryPrx&, 
-                                                const ::Ice::Current& = ::Ice::Current()) override;
+                                                 const ::Ice::Current& = ::Ice::Current()) override;
                 virtual void UnregisterRoomFactory(const RoomFactoryPrx&, 
-                                                const ::Ice::Current& = ::Ice::Current()) override;
+                                                   const ::Ice::Current& = ::Ice::Current()) override;
             private:
                 RoomList roomList;
                 RoomFactoryList roomFactoryList;
