@@ -14,7 +14,6 @@
         class Factory {
             public:
                 Factory();
-                void unregisterRoomFactory() const;
                 void registerRoomFactory();
                 ~Factory();
             private:

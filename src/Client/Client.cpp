@@ -10,11 +10,8 @@ namespace ClientApp {
         int port = portsUtil.getRandomPort();
         adapter = iceCommunicator->createObjectAdapterWithEndpoints("User" + username, 
                                                         "default -p " + to_string(port));
-        adapter->add(object, iceCommunicator->stringToIdentity("User" + username));
+        user = UserPrx::uncheckedCast(adapter->addWithUUID(object));
         adapter->activate();
-        Ice::ObjectPrx base = iceCommunicator->stringToProxy("User" + username 
-                                                + ":default -p " + to_string(port));
-        user = UserPrx::checkedCast(base);
     }
 
     Client::Client(const string& name, const string& passwd) : username(name), password(passwd) {
@@ -68,10 +65,12 @@ namespace ClientApp {
             RoomPrx room = server->FindRoom(name);
             room->AddUser(user, password);
             userRooms.push_back(room);
-        } catch (NoSuchRoomExist& ex) {
+        } catch (const Chat::NoSuchRoomExist& ex) {
             cerr << ex << endl;
-        } catch (UserAlreadyExists& ex) {
+        } catch (const Chat::UserAlreadyExists& ex) {
             cerr << ex << endl;
+        } catch (const Ice::UnknownException& ex) {
+            cerr << "Operation couldn't be realized." << endl;
         }
         scrollConsole();
     }
@@ -84,8 +83,8 @@ namespace ClientApp {
             for (auto& user : users) {
                 cout << user->getName() << endl;
             }
-        } catch (NoSuchRoomExist& ex) {
-            cerr << ex << endl;
+        } catch (const Ice::UnknownException& ex) {
+            cerr << "Operation couldn't be realized." << endl;
         }
     }
 
@@ -95,9 +94,10 @@ namespace ClientApp {
             RoomPrx room = server->FindRoom(roomName);
             UserList users = room->getUsers();
             return users;
-        } catch (NoSuchRoomExist& ex) {
-            throw ex;
+        } catch (Ice::UnknownException& ex) {
+            cerr << ex << endl;
         }
+        return UserList();
     }
 
     string Client::getNameOfTheRoom() const {

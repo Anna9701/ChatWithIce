@@ -4,27 +4,19 @@ namespace RoomFactory {
     void Factory::registerRoomFactory() {
         RoomFactoryPtr object = new RoomFactoryImpl();
         int port = portsUtil.getRandomPort();
-        adapter = iceCommunicator->createObjectAdapterWithEndpoints("RoomFactory", 
-                                                        "default -p " + to_string(port));
+        adapter = iceCommunicator->createObjectAdapterWithEndpoints("RoomFactory", "default -p " + to_string(port));
+        roomFactory = RoomFactoryPrx::uncheckedCast(adapter->addWithUUID(object));
         adapter->add(object, iceCommunicator->stringToIdentity("RoomFactory"));
         adapter->activate();
-        Ice::ObjectPrx base = iceCommunicator->stringToProxy("RoomFactory:default -p " 
-                                                                    + to_string(port));
-        roomFactory = RoomFactoryPrx::checkedCast(base);
         server->RegisterRoomFactory(roomFactory);
         adapter->waitForDeactivate();
-    }
-
-    void Factory::unregisterRoomFactory() const {
-        server->UnregisterRoomFactory(roomFactory);
     }
 
     Factory::Factory() {
         try {
             iceCommunicator = Ice::initialize();
             int serverPort = portsUtil.getServerPort();
-            Ice::ObjectPrx base = iceCommunicator->stringToProxy("Server:default -p " 
-                                                            + to_string(serverPort));
+            Ice::ObjectPrx base = iceCommunicator->stringToProxy("Server:default -p " + to_string(serverPort));
             server = ServerPrx::checkedCast(base);
             if (!server) {
                 throw "Invalid proxy";
@@ -37,6 +29,6 @@ namespace RoomFactory {
     }
 
     Factory::~Factory() {
-        unregisterRoomFactory();
+        server->UnregisterRoomFactory(roomFactory);
     }
 }

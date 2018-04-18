@@ -42,7 +42,7 @@ int main(int argc, char* argv[]) {
             case 7:
                 client.sendPrivateMessageToUser();
                 break;
-            case 8: //TODO test it properly!!!!!!!!!!!!!!!!!!!!!!
+            case 8: 
                 client.changePassword();
                 break;
             case 0:
